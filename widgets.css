@@ -1,21 +1,4 @@
-from pathlib import Path
 
-css = r'''/*
-=========================================================
-ONSEN NOTION WIDGETS
-Compact, minimal and transparent shared theme
-=========================================================
-
-Replace your existing:
-
-    css/onsen.css
-
-with this file.
-
-The stronger compact rules near the bottom deliberately override
-the widget-specific styles inside calendar.html, clock.html and
-weather.html so you do not need to rewrite those files.
-*/
 
 
 /* =====================================================
