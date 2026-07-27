@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 
 <head>
 
@@ -12,199 +12,263 @@
 
     <title>Onsen Clock</title>
 
-    <link
-        rel="stylesheet"
-        href="widgets.css"
-    >
-
     <style>
 
         /* =====================================================
-           Clock-specific styling
+           PAGE RESET
            ===================================================== */
 
-        .onsen-clock-header {
-            position: relative;
-            z-index: 1;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
-            text-align: center;
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+
+            width: 100%;
+
+            background: transparent;
+
+            color: #f0eee7;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            padding: 8px;
+
+            overflow: hidden;
         }
 
 
-        .onsen-clock-display {
+        /* =====================================================
+           CLOCK CARD
+           ===================================================== */
+
+        .clock-card {
+            position: relative;
+
+            width: calc(100% - 4px);
+            max-width: 340px;
+
+            padding: 17px 20px 15px;
+
+            overflow: hidden;
+
+            background:
+                rgba(26, 35, 31, 0.58);
+
+            border:
+                1px solid
+                rgba(190, 207, 184, 0.17);
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 24px
+                rgba(0, 0, 0, 0.10);
+
+            backdrop-filter:
+                blur(12px)
+                saturate(105%);
+
+            -webkit-backdrop-filter:
+                blur(12px)
+                saturate(105%);
+        }
+
+
+        .clock-card::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.035),
+                    transparent 48%
+                );
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .clock-header {
             position: relative;
             z-index: 1;
 
             display: flex;
-            align-items: baseline;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 9px;
+        }
+
+
+        .clock-greeting {
+            margin: 0;
+
+            color:
+                rgba(190, 207, 184, 0.88);
+
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           CRESCENT MOON
+           ===================================================== */
+
+        .clock-moon {
+            position: relative;
+
+            width: 16px;
+            height: 16px;
+
+            flex: 0 0 auto;
+
+            background:
+                rgba(217, 224, 205, 0.88);
+
+            border-radius: 50%;
+        }
+
+
+        .clock-moon::after {
+            content: "";
+
+            position: absolute;
+            top: -3px;
+            left: 6px;
+
+            width: 16px;
+            height: 16px;
+
+            background:
+                rgba(28, 37, 33, 0.98);
+
+            border-radius: 50%;
+        }
+
+
+        /* =====================================================
+           TIME
+           ===================================================== */
+
+        .clock-time {
+            position: relative;
+            z-index: 1;
+
+            display: flex;
             justify-content: center;
+            align-items: baseline;
 
-            margin: 18px 0 10px;
+            margin: 0;
 
-            color: var(--onsen-text);
+            color: #f3f1e9;
 
             font-family:
                 Georgia,
                 "Times New Roman",
                 serif;
 
-            font-size: clamp(58px, 17vw, 92px);
-            font-weight: normal;
-            line-height: 1;
-            letter-spacing: 0.025em;
+            font-size:
+                clamp(
+                    44px,
+                    15vw,
+                    62px
+                );
 
-            text-shadow:
-                0 4px 20px rgba(0, 0, 0, 0.38);
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: 0.02em;
+
+            white-space: nowrap;
         }
 
 
-        .onsen-clock-colon {
-            display: inline-block;
+        .clock-colon {
+            margin: 0 3px;
 
-            margin: 0 4px;
-
-            color: var(--onsen-sage-light);
+            color:
+                rgba(174, 194, 169, 0.90);
 
             animation:
-                onsen-clock-pulse 2s ease-in-out infinite;
+                colon-pulse
+                2s
+                ease-in-out
+                infinite;
         }
 
 
-        .onsen-clock-date {
-            margin: 0;
+        /* =====================================================
+           DATE
+           ===================================================== */
 
-            color: var(--onsen-muted);
-
-            text-align: center;
-            font-size: clamp(14px, 4vw, 17px);
-            font-style: italic;
-            letter-spacing: 0.015em;
-        }
-
-
-        .onsen-clock-greeting {
-            margin: 8px 0 0;
-
-            color: var(--onsen-sage-light);
-
-            text-align: center;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-        }
-
-
-        .onsen-clock-scene {
+        .clock-date {
             position: relative;
             z-index: 1;
 
-            height: 74px;
-            margin-top: 24px;
+            margin: 8px 0 0;
 
-            overflow: hidden;
+            color:
+                rgba(219, 223, 215, 0.64);
 
-            background:
-                linear-gradient(
-                    to bottom,
-                    rgba(125, 141, 114, 0.025),
-                    rgba(169, 130, 93, 0.08)
-                );
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
 
-            border: 1px solid var(--onsen-border-light);
-            border-radius: var(--onsen-radius-medium);
+            font-size: 12px;
+            font-style: italic;
+            line-height: 1.35;
+            text-align: center;
         }
 
 
-        .onsen-clock-moon {
-            position: absolute;
-            top: 13px;
-            right: 31px;
+        /* =====================================================
+           MINIMAL BOTTOM DETAIL
+           ===================================================== */
 
-            width: 28px;
-            height: 28px;
+        .clock-detail {
+            position: relative;
+            z-index: 1;
 
-            background: var(--onsen-brown-light);
-            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
 
-            box-shadow:
-                0 0 15px rgba(207, 176, 140, 0.22),
-                0 0 35px rgba(207, 176, 140, 0.10);
+            margin-top: 12px;
         }
 
 
-        .onsen-clock-moon::after {
+        .clock-detail::before,
+        .clock-detail::after {
             content: "";
 
-            position: absolute;
-            top: -4px;
-            left: 8px;
-
-            width: 28px;
-            height: 28px;
-
-            background: #261d17;
-            border-radius: 50%;
-        }
-
-
-        .onsen-clock-hill {
-            position: absolute;
-            right: -20px;
-            bottom: -30px;
-
-            width: 210px;
-            height: 70px;
-
-            background: rgba(83, 98, 77, 0.40);
-            border-radius: 50% 50% 0 0;
-        }
-
-
-        .onsen-clock-hill-secondary {
-            position: absolute;
-            bottom: -39px;
-            left: -35px;
-
-            width: 260px;
-            height: 78px;
-
-            background: rgba(111, 81, 57, 0.38);
-            border-radius: 50% 50% 0 0;
-        }
-
-
-        .onsen-clock-water {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            left: 0;
-
-            height: 22px;
-
-            background:
-                linear-gradient(
-                    to bottom,
-                    rgba(125, 141, 114, 0.22),
-                    rgba(83, 98, 77, 0.28)
-                );
-
-            border-top:
-                1px solid rgba(168, 182, 154, 0.20);
-        }
-
-
-        .onsen-clock-water::before,
-        .onsen-clock-water::after {
-            content: "";
-
-            position: absolute;
+            flex: 1;
 
             height: 1px;
 
@@ -212,78 +276,39 @@
                 linear-gradient(
                     to right,
                     transparent,
-                    rgba(232, 222, 206, 0.24),
-                    transparent
+                    rgba(190, 207, 184, 0.17)
                 );
         }
 
 
-        .onsen-clock-water::before {
-            top: 6px;
-            left: 12%;
-
-            width: 38%;
+        .clock-detail::after {
+            background:
+                linear-gradient(
+                    to left,
+                    transparent,
+                    rgba(190, 207, 184, 0.17)
+                );
         }
 
 
-        .onsen-clock-water::after {
-            top: 13px;
-            right: 8%;
+        .clock-detail-symbol {
+            color:
+                rgba(151, 174, 148, 0.72);
 
-            width: 32%;
+            font-size: 10px;
+            line-height: 1;
         }
 
 
-        .onsen-clock-scene-steam {
-            position: absolute;
-            bottom: 17px;
-            left: 46%;
+        /* =====================================================
+           ANIMATION
+           ===================================================== */
 
-            display: flex;
-            gap: 5px;
-
-            opacity: 0.30;
-        }
-
-
-        .onsen-clock-scene-steam span {
-            display: block;
-
-            width: 7px;
-            height: 25px;
-
-            border-left:
-                1px solid rgba(232, 222, 206, 0.70);
-
-            border-radius: 50%;
-
-            animation:
-                onsen-clock-steam-rise
-                4.5s
-                ease-in-out
-                infinite;
-        }
-
-
-        .onsen-clock-scene-steam span:nth-child(2) {
-            height: 32px;
-
-            animation-delay: 0.9s;
-        }
-
-
-        .onsen-clock-scene-steam span:nth-child(3) {
-            height: 22px;
-
-            animation-delay: 1.8s;
-        }
-
-
-        @keyframes onsen-clock-pulse {
+        @keyframes colon-pulse {
 
             0%,
             100% {
-                opacity: 0.45;
+                opacity: 0.42;
             }
 
             50% {
@@ -293,40 +318,34 @@
         }
 
 
-        @keyframes onsen-clock-steam-rise {
+        /* =====================================================
+           SMALL NOTION COLUMNS
+           ===================================================== */
 
-            0%,
-            100% {
-                opacity: 0.20;
+        @media (max-width: 320px) {
 
-                transform:
-                    translateY(4px)
-                    rotate(3deg);
+            body {
+                padding: 5px;
             }
 
-            50% {
-                opacity: 0.75;
-
-                transform:
-                    translateY(-6px)
-                    rotate(-3deg);
+            .clock-card {
+                padding:
+                    14px
+                    15px
+                    13px;
             }
 
-        }
-
-
-        @media (max-width: 500px) {
-
-            .onsen-clock-display {
-                margin-top: 14px;
-
-                font-size: clamp(52px, 18vw, 76px);
+            .clock-time {
+                font-size:
+                    clamp(
+                        38px,
+                        16vw,
+                        50px
+                    );
             }
 
-
-            .onsen-clock-scene {
-                height: 62px;
-                margin-top: 20px;
+            .clock-date {
+                font-size: 11px;
             }
 
         }
@@ -334,8 +353,7 @@
 
         @media (prefers-reduced-motion: reduce) {
 
-            .onsen-clock-colon,
-            .onsen-clock-scene-steam span {
+            .clock-colon {
                 animation: none;
             }
 
@@ -348,176 +366,177 @@
 
 <body>
 
-    <section
-        class="onsen-widget"
+    <main
+        class="clock-card"
         aria-label="Current time and date"
     >
 
-        <div class="onsen-content">
-
-            <header class="onsen-clock-header">
-
-                <p
-                    class="onsen-label onsen-center"
-                    id="clockGreeting"
-                >
-                    A peaceful moment
-                </p>
-
-
-                <div
-                    class="onsen-divider"
-                    aria-hidden="true"
-                >
-                    <span class="onsen-divider-symbol">
-                        ❧
-                    </span>
-                </div>
-
-            </header>
-
-
-            <time
-                class="onsen-clock-display"
-                id="clockTime"
-            >
-                <span id="clockHours">00</span>
-
-                <span
-                    class="onsen-clock-colon"
-                    aria-hidden="true"
-                >
-                    :
-                </span>
-
-                <span id="clockMinutes">00</span>
-            </time>
-
+        <header class="clock-header">
 
             <p
-                class="onsen-clock-date"
-                id="clockDate"
+                class="clock-greeting"
+                id="clockGreeting"
             >
-                Loading today’s date…
+                Good evening
             </p>
 
+            <span
+                class="clock-moon"
+                aria-hidden="true"
+            ></span>
 
-            <div
-                class="onsen-clock-scene"
+        </header>
+
+
+        <time
+            class="clock-time"
+            id="clockTime"
+        >
+
+            <span id="clockHours">
+                00
+            </span>
+
+            <span
+                class="clock-colon"
                 aria-hidden="true"
             >
+                :
+            </span>
 
-                <div class="onsen-clock-moon"></div>
+            <span id="clockMinutes">
+                00
+            </span>
 
-                <div class="onsen-clock-hill"></div>
-
-                <div class="onsen-clock-hill-secondary"></div>
-
-                <div class="onsen-clock-water"></div>
-
-                <div class="onsen-clock-scene-steam">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-            </div>
+        </time>
 
 
-            <footer class="onsen-footer">
+        <p
+            class="clock-date"
+            id="clockDate"
+        >
+            Loading today’s date…
+        </p>
 
-                <span
-                    class="onsen-footer-line"
-                    aria-hidden="true"
-                ></span>
 
-                <span
-                    class="onsen-footer-symbol"
-                    aria-hidden="true"
-                >
-                    ♨
-                </span>
+        <div
+            class="clock-detail"
+            aria-hidden="true"
+        >
 
-                <span>
-                    Move slowly. Breathe deeply.
-                </span>
-
-                <span
-                    class="onsen-footer-line"
-                    aria-hidden="true"
-                ></span>
-
-            </footer>
+            <span class="clock-detail-symbol">
+                ♨
+            </span>
 
         </div>
 
-    </section>
-
-
-    <script src="widgets.js"></script>
+    </main>
 
 
     <script>
 
-        function updateOnsenClock() {
-
-            const now =
-                onsenGetNow();
+        "use strict";
 
 
-            const hoursElement =
-                document.getElementById("clockHours");
+        function padNumber(number) {
 
-            const minutesElement =
-                document.getElementById("clockMinutes");
-
-            const clockElement =
-                document.getElementById("clockTime");
-
-            const dateElement =
-                document.getElementById("clockDate");
-
-            const greetingElement =
-                document.getElementById("clockGreeting");
-
-
-            hoursElement.textContent =
-                onsenPadNumber(now.getHours());
-
-            minutesElement.textContent =
-                onsenPadNumber(now.getMinutes());
-
-
-            clockElement.setAttribute(
-                "datetime",
-                now.toISOString()
+            return String(number).padStart(
+                2,
+                "0"
             );
-
-
-            dateElement.textContent =
-                onsenFormatFullDate(now);
-
-
-            greetingElement.textContent =
-                onsenGetGreeting(now);
 
         }
 
 
-        updateOnsenClock();
+        function getGreeting(hour) {
+
+            if (hour < 5) {
+                return "Quiet night";
+            }
+
+            if (hour < 12) {
+                return "Good morning";
+            }
+
+            if (hour < 17) {
+                return "Good afternoon";
+            }
+
+            if (hour < 22) {
+                return "Good evening";
+            }
+
+            return "Quiet night";
+
+        }
+
+
+        function updateClock() {
+
+            const now =
+                new Date();
+
+
+            const hours =
+                padNumber(
+                    now.getHours()
+                );
+
+
+            const minutes =
+                padNumber(
+                    now.getMinutes()
+                );
+
+
+            document.getElementById(
+                "clockHours"
+            ).textContent = hours;
+
+
+            document.getElementById(
+                "clockMinutes"
+            ).textContent = minutes;
+
+
+            document.getElementById(
+                "clockGreeting"
+            ).textContent =
+                getGreeting(
+                    now.getHours()
+                );
+
+
+            document.getElementById(
+                "clockDate"
+            ).textContent =
+                now.toLocaleDateString(
+                    "en-GB",
+                    {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long"
+                    }
+                );
+
+
+            document.getElementById(
+                "clockTime"
+            ).setAttribute(
+                "datetime",
+                now.toISOString()
+            );
+
+        }
+
+
+        updateClock();
 
 
         window.setInterval(
-            updateOnsenClock,
+            updateClock,
             1000
         );
-
-
-        onsenRefreshAfterMidnight(() => {
-
-            updateOnsenClock();
-
-        });
 
     </script>
 
