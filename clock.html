@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Onsen Clock</title>
+
+    <link
+        rel="stylesheet"
+        href="css/onsen.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           Clock-specific styling
+           ===================================================== */
+
+        .onsen-clock-header {
+            position: relative;
+            z-index: 1;
+
+            text-align: center;
+        }
+
+
+        .onsen-clock-display {
+            position: relative;
+            z-index: 1;
+
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+
+            margin: 18px 0 10px;
+
+            color: var(--onsen-text);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: clamp(58px, 17vw, 92px);
+            font-weight: normal;
+            line-height: 1;
+            letter-spacing: 0.025em;
+
+            text-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.38);
+        }
+
+
+        .onsen-clock-colon {
+            display: inline-block;
+
+            margin: 0 4px;
+
+            color: var(--onsen-sage-light);
+
+            animation:
+                onsen-clock-pulse 2s ease-in-out infinite;
+        }
+
+
+        .onsen-clock-date {
+            margin: 0;
+
+            color: var(--onsen-muted);
+
+            text-align: center;
+            font-size: clamp(14px, 4vw, 17px);
+            font-style: italic;
+            letter-spacing: 0.015em;
+        }
+
+
+        .onsen-clock-greeting {
+            margin: 8px 0 0;
+
+            color: var(--onsen-sage-light);
+
+            text-align: center;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+
+        .onsen-clock-scene {
+            position: relative;
+            z-index: 1;
+
+            height: 74px;
+            margin-top: 24px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(125, 141, 114, 0.025),
+                    rgba(169, 130, 93, 0.08)
+                );
+
+            border: 1px solid var(--onsen-border-light);
+            border-radius: var(--onsen-radius-medium);
+        }
+
+
+        .onsen-clock-moon {
+            position: absolute;
+            top: 13px;
+            right: 31px;
+
+            width: 28px;
+            height: 28px;
+
+            background: var(--onsen-brown-light);
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 15px rgba(207, 176, 140, 0.22),
+                0 0 35px rgba(207, 176, 140, 0.10);
+        }
+
+
+        .onsen-clock-moon::after {
+            content: "";
+
+            position: absolute;
+            top: -4px;
+            left: 8px;
+
+            width: 28px;
+            height: 28px;
+
+            background: #261d17;
+            border-radius: 50%;
+        }
+
+
+        .onsen-clock-hill {
+            position: absolute;
+            right: -20px;
+            bottom: -30px;
+
+            width: 210px;
+            height: 70px;
+
+            background: rgba(83, 98, 77, 0.40);
+            border-radius: 50% 50% 0 0;
+        }
+
+
+        .onsen-clock-hill-secondary {
+            position: absolute;
+            bottom: -39px;
+            left: -35px;
+
+            width: 260px;
+            height: 78px;
+
+            background: rgba(111, 81, 57, 0.38);
+            border-radius: 50% 50% 0 0;
+        }
+
+
+        .onsen-clock-water {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            height: 22px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(125, 141, 114, 0.22),
+                    rgba(83, 98, 77, 0.28)
+                );
+
+            border-top:
+                1px solid rgba(168, 182, 154, 0.20);
+        }
+
+
+        .onsen-clock-water::before,
+        .onsen-clock-water::after {
+            content: "";
+
+            position: absolute;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    to right,
+                    transparent,
+                    rgba(232, 222, 206, 0.24),
+                    transparent
+                );
+        }
+
+
+        .onsen-clock-water::before {
+            top: 6px;
+            left: 12%;
+
+            width: 38%;
+        }
+
+
+        .onsen-clock-water::after {
+            top: 13px;
+            right: 8%;
+
+            width: 32%;
+        }
+
+
+        .onsen-clock-scene-steam {
+            position: absolute;
+            bottom: 17px;
+            left: 46%;
+
+            display: flex;
+            gap: 5px;
+
+            opacity: 0.30;
+        }
+
+
+        .onsen-clock-scene-steam span {
+            display: block;
+
+            width: 7px;
+            height: 25px;
+
+            border-left:
+                1px solid rgba(232, 222, 206, 0.70);
+
+            border-radius: 50%;
+
+            animation:
+                onsen-clock-steam-rise
+                4.5s
+                ease-in-out
+                infinite;
+        }
+
+
+        .onsen-clock-scene-steam span:nth-child(2) {
+            height: 32px;
+
+            animation-delay: 0.9s;
+        }
+
+
+        .onsen-clock-scene-steam span:nth-child(3) {
+            height: 22px;
+
+            animation-delay: 1.8s;
+        }
+
+
+        @keyframes onsen-clock-pulse {
+
+            0%,
+            100% {
+                opacity: 0.45;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+        }
+
+
+        @keyframes onsen-clock-steam-rise {
+
+            0%,
+            100% {
+                opacity: 0.20;
+
+                transform:
+                    translateY(4px)
+                    rotate(3deg);
+            }
+
+            50% {
+                opacity: 0.75;
+
+                transform:
+                    translateY(-6px)
+                    rotate(-3deg);
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .onsen-clock-display {
+                margin-top: 14px;
+
+                font-size: clamp(52px, 18vw, 76px);
+            }
+
+
+            .onsen-clock-scene {
+                height: 62px;
+                margin-top: 20px;
+            }
+
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .onsen-clock-colon,
+            .onsen-clock-scene-steam span {
+                animation: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <section
+        class="onsen-widget"
+        aria-label="Current time and date"
+    >
+
+        <div class="onsen-content">
+
+            <header class="onsen-clock-header">
+
+                <p
+                    class="onsen-label onsen-center"
+                    id="clockGreeting"
+                >
+                    A peaceful moment
+                </p>
+
+
+                <div
+                    class="onsen-divider"
+                    aria-hidden="true"
+                >
+                    <span class="onsen-divider-symbol">
+                        ❧
+                    </span>
+                </div>
+
+            </header>
+
+
+            <time
+                class="onsen-clock-display"
+                id="clockTime"
+            >
+                <span id="clockHours">00</span>
+
+                <span
+                    class="onsen-clock-colon"
+                    aria-hidden="true"
+                >
+                    :
+                </span>
+
+                <span id="clockMinutes">00</span>
+            </time>
+
+
+            <p
+                class="onsen-clock-date"
+                id="clockDate"
+            >
+                Loading today’s date…
+            </p>
+
+
+            <div
+                class="onsen-clock-scene"
+                aria-hidden="true"
+            >
+
+                <div class="onsen-clock-moon"></div>
+
+                <div class="onsen-clock-hill"></div>
+
+                <div class="onsen-clock-hill-secondary"></div>
+
+                <div class="onsen-clock-water"></div>
+
+                <div class="onsen-clock-scene-steam">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+            </div>
+
+
+            <footer class="onsen-footer">
+
+                <span
+                    class="onsen-footer-line"
+                    aria-hidden="true"
+                ></span>
+
+                <span
+                    class="onsen-footer-symbol"
+                    aria-hidden="true"
+                >
+                    ♨
+                </span>
+
+                <span>
+                    Move slowly. Breathe deeply.
+                </span>
+
+                <span
+                    class="onsen-footer-line"
+                    aria-hidden="true"
+                ></span>
+
+            </footer>
+
+        </div>
+
+    </section>
+
+
+    <script src="js/onsen.js"></script>
+
+
+    <script>
+
+        function updateOnsenClock() {
+
+            const now =
+                onsenGetNow();
+
+
+            const hoursElement =
+                document.getElementById("clockHours");
+
+            const minutesElement =
+                document.getElementById("clockMinutes");
+
+            const clockElement =
+                document.getElementById("clockTime");
+
+            const dateElement =
+                document.getElementById("clockDate");
+
+            const greetingElement =
+                document.getElementById("clockGreeting");
+
+
+            hoursElement.textContent =
+                onsenPadNumber(now.getHours());
+
+            minutesElement.textContent =
+                onsenPadNumber(now.getMinutes());
+
+
+            clockElement.setAttribute(
+                "datetime",
+                now.toISOString()
+            );
+
+
+            dateElement.textContent =
+                onsenFormatFullDate(now);
+
+
+            greetingElement.textContent =
+                onsenGetGreeting(now);
+
+        }
+
+
+        updateOnsenClock();
+
+
+        window.setInterval(
+            updateOnsenClock,
+            1000
+        );
+
+
+        onsenRefreshAfterMidnight(() => {
+
+            updateOnsenClock();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
