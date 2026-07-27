@@ -15,7 +15,7 @@
     <style>
 
         /* =====================================================
-           PAGE RESET
+           PAGE
            ===================================================== */
 
         *,
@@ -50,7 +50,7 @@
 
             padding: 8px;
 
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
 
@@ -64,7 +64,7 @@
             width: calc(100% - 4px);
             max-width: 360px;
 
-            padding: 16px 18px 15px;
+            padding: 16px 18px;
 
             overflow: hidden;
 
@@ -170,7 +170,7 @@
 
 
         /* =====================================================
-           CRESCENT MOON
+           MOON
            ===================================================== */
 
         .weather-moon {
@@ -214,7 +214,7 @@
             position: relative;
             z-index: 1;
 
-            padding: 32px 10px;
+            padding: 28px 10px;
 
             color:
                 rgba(218, 223, 214, 0.60);
@@ -424,185 +424,6 @@
 
 
         /* =====================================================
-           FORECAST HEADING
-           ===================================================== */
-
-        .forecast-divider {
-            position: relative;
-            z-index: 1;
-
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            margin: 12px 0 8px;
-        }
-
-        .forecast-divider::before,
-        .forecast-divider::after {
-            content: "";
-
-            flex: 1;
-
-            height: 1px;
-
-            background:
-                linear-gradient(
-                    to right,
-                    transparent,
-                    rgba(190, 207, 184, 0.17)
-                );
-        }
-
-        .forecast-divider::after {
-            background:
-                linear-gradient(
-                    to left,
-                    transparent,
-                    rgba(190, 207, 184, 0.17)
-                );
-        }
-
-        .forecast-divider-text {
-            color:
-                rgba(190, 207, 184, 0.72);
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 8px;
-            font-style: italic;
-            letter-spacing: 0.04em;
-        }
-
-
-        /* =====================================================
-           THREE-DAY FORECAST
-           ===================================================== */
-
-        .weather-forecast {
-            position: relative;
-            z-index: 1;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    3,
-                    minmax(0, 1fr)
-                );
-
-            gap: 5px;
-        }
-
-        .forecast-day {
-            min-width: 0;
-
-            padding: 8px 4px;
-
-            text-align: center;
-
-            background:
-                rgba(255, 255, 255, 0.018);
-
-            border:
-                1px solid
-                rgba(225, 233, 222, 0.09);
-
-            border-radius: 8px;
-        }
-
-        .forecast-name {
-            margin: 0;
-
-            color:
-                rgba(190, 207, 184, 0.82);
-
-            font-size: 7px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .forecast-icon {
-            display: block;
-
-            margin: 7px 0 6px;
-
-            color:
-                rgba(210, 221, 202, 0.90);
-
-            font-size: 22px;
-            line-height: 1;
-        }
-
-        .forecast-temperature {
-            margin: 0;
-
-            color:
-                rgba(241, 239, 232, 0.90);
-
-            font-size: 10px;
-        }
-
-        .forecast-low {
-            color:
-                rgba(218, 223, 214, 0.48);
-        }
-
-
-        /* =====================================================
-           FOOTER
-           ===================================================== */
-
-        .weather-footer {
-            position: relative;
-            z-index: 1;
-
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            margin-top: 12px;
-        }
-
-        .weather-footer::before,
-        .weather-footer::after {
-            content: "";
-
-            flex: 1;
-
-            height: 1px;
-
-            background:
-                linear-gradient(
-                    to right,
-                    transparent,
-                    rgba(190, 207, 184, 0.17)
-                );
-        }
-
-        .weather-footer::after {
-            background:
-                linear-gradient(
-                    to left,
-                    transparent,
-                    rgba(190, 207, 184, 0.17)
-                );
-        }
-
-        .weather-footer-symbol {
-            color:
-                rgba(151, 174, 148, 0.72);
-
-            font-size: 10px;
-            line-height: 1;
-        }
-
-
-        /* =====================================================
            SMALL NOTION COLUMNS
            ===================================================== */
 
@@ -613,10 +434,7 @@
             }
 
             .weather-card {
-                padding:
-                    14px
-                    13px
-                    13px;
+                padding: 14px 13px;
             }
 
             .weather-current {
@@ -655,7 +473,7 @@
 
     <main
         class="weather-card"
-        aria-label="Current weather and three-day forecast"
+        aria-label="Current weather"
     >
 
         <header class="weather-header">
@@ -803,34 +621,6 @@
 
             </section>
 
-
-            <div class="forecast-divider">
-
-                <span class="forecast-divider-text">
-                    Three-day outlook
-                </span>
-
-            </div>
-
-
-            <section
-                class="weather-forecast"
-                id="weatherForecast"
-                aria-label="Three-day weather forecast"
-            ></section>
-
-        </div>
-
-
-        <div
-            class="weather-footer"
-            aria-hidden="true"
-        >
-
-            <span class="weather-footer-symbol">
-                ♨
-            </span>
-
         </div>
 
     </main>
@@ -841,22 +631,12 @@
         "use strict";
 
 
-        /* =====================================================
-           LOCATION
-
-           Change these three values to use a different place.
-           ===================================================== */
-
         const weatherLocation = {
             name: "Gosport, Hampshire",
             latitude: 50.7949,
             longitude: -1.1291
         };
 
-
-        /* =====================================================
-           WEATHER DESCRIPTIONS
-           ===================================================== */
 
         function getWeatherInformation(
             code,
@@ -1023,10 +803,6 @@
         }
 
 
-        /* =====================================================
-           FORMATTING
-           ===================================================== */
-
         function roundNumber(value) {
 
             if (
@@ -1045,43 +821,7 @@
         }
 
 
-        function getForecastDayName(
-            dateString,
-            index
-        ) {
-
-            if (index === 0) {
-                return "Today";
-            }
-
-
-            if (index === 1) {
-                return "Tomorrow";
-            }
-
-
-            const date =
-                new Date(
-                    dateString +
-                    "T12:00:00"
-                );
-
-
-            return date.toLocaleDateString(
-                "en-GB",
-                {
-                    weekday: "short"
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           CURRENT WEATHER
-           ===================================================== */
-
-        function displayCurrentWeather(
+        function displayWeather(
             weatherData
         ) {
 
@@ -1163,150 +903,6 @@
         }
 
 
-        /* =====================================================
-           FORECAST
-           ===================================================== */
-
-        function displayForecast(
-            weatherData
-        ) {
-
-            const daily =
-                weatherData.daily;
-
-
-            const forecastContainer =
-                document.getElementById(
-                    "weatherForecast"
-                );
-
-
-            forecastContainer.replaceChildren();
-
-
-            for (
-                let index = 0;
-                index < daily.time.length;
-                index++
-            ) {
-
-                const weather =
-                    getWeatherInformation(
-                        daily.weather_code[index],
-                        true
-                    );
-
-
-                const high =
-                    roundNumber(
-                        daily.temperature_2m_max[index]
-                    );
-
-
-                const low =
-                    roundNumber(
-                        daily.temperature_2m_min[index]
-                    );
-
-
-                const forecastDay =
-                    document.createElement(
-                        "article"
-                    );
-
-
-                forecastDay.className =
-                    "forecast-day";
-
-
-                const dayName =
-                    document.createElement(
-                        "p"
-                    );
-
-
-                dayName.className =
-                    "forecast-name";
-
-
-                dayName.textContent =
-                    getForecastDayName(
-                        daily.time[index],
-                        index
-                    );
-
-
-                const icon =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                icon.className =
-                    "forecast-icon";
-
-
-                icon.textContent =
-                    weather.icon;
-
-
-                icon.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
-
-
-                const temperature =
-                    document.createElement(
-                        "p"
-                    );
-
-
-                temperature.className =
-                    "forecast-temperature";
-
-
-                temperature.innerHTML =
-                    high +
-                    "° " +
-                    '<span class="forecast-low">' +
-                    low +
-                    "°</span>";
-
-
-                forecastDay.setAttribute(
-                    "aria-label",
-                    dayName.textContent +
-                    ": " +
-                    weather.description +
-                    ", high " +
-                    high +
-                    " degrees and low " +
-                    low +
-                    " degrees"
-                );
-
-
-                forecastDay.append(
-                    dayName,
-                    icon,
-                    temperature
-                );
-
-
-                forecastContainer.appendChild(
-                    forecastDay
-                );
-
-            }
-
-        }
-
-
-        /* =====================================================
-           LOAD WEATHER
-           ===================================================== */
-
         async function loadWeather() {
 
             const statusElement =
@@ -1322,9 +918,14 @@
 
 
             statusElement.hidden = false;
+
             statusElement.classList.remove(
                 "error"
             );
+
+
+            statusElement.textContent =
+                "Gathering the evening mist…";
 
 
             contentElement.hidden = true;
@@ -1353,7 +954,6 @@
                 "wind_speed_10m" +
 
                 "&daily=" +
-                "weather_code," +
                 "temperature_2m_max," +
                 "temperature_2m_min," +
                 "precipitation_probability_max" +
@@ -1364,7 +964,7 @@
 
                 "&timezone=Europe%2FLondon" +
 
-                "&forecast_days=3";
+                "&forecast_days=1";
 
 
             try {
@@ -1401,12 +1001,7 @@
                 }
 
 
-                displayCurrentWeather(
-                    weatherData
-                );
-
-
-                displayForecast(
+                displayWeather(
                     weatherData
                 );
 
@@ -1428,7 +1023,7 @@
 
 
                 statusElement.textContent =
-                    "The weather has disappeared into the mist. Please refresh the widget.";
+                    "The weather could not be loaded. Please refresh the widget.";
 
             }
 
