@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Onsen Calendar</title>
+
+    <link
+        rel="stylesheet"
+        href="css/onsen.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           Calendar-specific styling
+           ===================================================== */
+
+        .onsen-calendar-header {
+            position: relative;
+            z-index: 1;
+
+            text-align: center;
+        }
+
+
+        .onsen-calendar-grid {
+            position: relative;
+            z-index: 1;
+
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+
+            gap: 6px;
+        }
+
+
+        .onsen-calendar-weekday {
+            padding: 3px 0 10px;
+
+            color: var(--onsen-sage-light);
+
+            text-align: center;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+
+        .onsen-calendar-day {
+            display: grid;
+            place-items: center;
+
+            min-width: 0;
+            aspect-ratio: 1;
+
+            color: var(--onsen-text);
+
+            background: rgba(255, 255, 255, 0.018);
+
+            border: 1px solid var(--onsen-border-light);
+            border-radius: var(--onsen-radius-small);
+
+            font-size: clamp(14px, 3.5vw, 17px);
+
+            transition:
+                color 160ms ease,
+                background 160ms ease,
+                border-color 160ms ease;
+        }
+
+
+        .onsen-calendar-day:not(
+            .onsen-calendar-day-empty
+        ):hover {
+            color: var(--onsen-sage-light);
+
+            background: rgba(125, 141, 114, 0.08);
+
+            border-color: rgba(168, 182, 154, 0.24);
+        }
+
+
+        .onsen-calendar-day-empty {
+            background: transparent;
+            border-color: transparent;
+        }
+
+
+        .onsen-calendar-day-today {
+            color: #182015;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--onsen-sage-light),
+                    var(--onsen-sage)
+                );
+
+            border-color: rgba(211, 222, 199, 0.52);
+
+            box-shadow:
+                0 0 0 3px rgba(126, 147, 112, 0.11),
+                0 5px 14px rgba(0, 0, 0, 0.30);
+
+            font-weight: bold;
+        }
+
+
+        .onsen-calendar-day-today:hover {
+            color: #182015;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--onsen-sage-light),
+                    var(--onsen-sage)
+                );
+        }
+
+
+        @media (max-width: 500px) {
+
+            .onsen-calendar-grid {
+                gap: 4px;
+            }
+
+
+            .onsen-calendar-day {
+                border-radius: 7px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <section
+        class="onsen-widget"
+        aria-label="Calendar for the current month"
+    >
+
+        <div class="onsen-content">
+
+            <header class="onsen-calendar-header">
+
+                <p class="onsen-label onsen-center">
+                    Current month
+                </p>
+
+
+                <h1
+                    class="onsen-title onsen-margin-top-small"
+                    id="calendarMonth"
+                >
+                    Calendar
+                </h1>
+
+
+                <div
+                    class="onsen-divider"
+                    aria-hidden="true"
+                >
+                    <span class="onsen-divider-symbol">
+                        ❧
+                    </span>
+                </div>
+
+            </header>
+
+
+            <div
+                class="onsen-calendar-grid"
+                id="calendarGrid"
+                role="grid"
+                aria-label="Days in the current month"
+            >
+
+                <div
+                    class="onsen-calendar-weekday"
+                    role="columnheader"
+                >
+                    Mon
+                </div>
+
+                <div
+                    class="onsen-calendar-weekday"
+                    role="columnheader"
+                >
+                    Tue
+                </div>
+
+                <div
+                    class="onsen-calendar-weekday"
+                    role="columnheader"
+                >
+                    Wed
+                </div>
+
+                <div
+                    class="onsen-calendar-weekday"
+                    role="columnheader"
+                >
+                    Thu
+                </div>
+
+                <div
+                    class="onsen-calendar-weekday"
+                    role="columnheader"
+                >
+                    Fri
+                </div>
+
+                <div
+                    class="onsen-calendar-weekday"
+                    role="columnheader"
+                >
+                    Sat
+                </div>
+
+                <div
+                    class="onsen-calendar-weekday"
+                    role="columnheader"
+                >
+                    Sun
+                </div>
+
+            </div>
+
+
+            <footer class="onsen-footer">
+
+                <span
+                    class="onsen-footer-line"
+                    aria-hidden="true"
+                ></span>
+
+                <span
+                    class="onsen-footer-symbol"
+                    aria-hidden="true"
+                >
+                    ♨
+                </span>
+
+                <span>
+                    Take each day gently.
+                </span>
+
+                <span
+                    class="onsen-footer-line"
+                    aria-hidden="true"
+                ></span>
+
+            </footer>
+
+        </div>
+
+
+        <div
+            class="onsen-steam"
+            aria-hidden="true"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+
+        <div
+            class="onsen-plant"
+            aria-hidden="true"
+        >
+            <span>❧</span>
+            <span>❧</span>
+        </div>
+
+    </section>
+
+
+    <script src="js/onsen.js"></script>
+
+
+    <script>
+
+        function renderCalendar() {
+
+            onsenRenderCurrentCalendar({
+                titleId: "calendarMonth",
+                gridId: "calendarGrid"
+            });
+
+        }
+
+
+        renderCalendar();
+
+
+        onsenRefreshAfterMidnight(() => {
+
+            renderCalendar();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
