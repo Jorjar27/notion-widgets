@@ -1,56 +1,40 @@
-
+/*
+=========================================================
+ONSEN NOTION WIDGETS
+Compact, minimal, sage and transparent
+=========================================================
+*/
 
 
 /* =====================================================
-   1. Theme variables
+   COLOURS AND VARIABLES
    ===================================================== */
 
 :root {
-    --onsen-page: transparent;
+    --onsen-background: rgba(20, 28, 25, 0.38);
+    --onsen-panel: rgba(255, 255, 255, 0.035);
+    --onsen-panel-hover: rgba(255, 255, 255, 0.065);
 
-    --onsen-background:
-        rgba(22, 28, 25, 0.38);
+    --onsen-text: rgba(245, 244, 238, 0.96);
+    --onsen-muted: rgba(218, 223, 214, 0.65);
 
-    --onsen-background-soft:
-        rgba(255, 255, 255, 0.025);
-
-    --onsen-background-hover:
-        rgba(255, 255, 255, 0.055);
-
-    --onsen-text:
-        rgba(241, 239, 232, 0.94);
-
-    --onsen-muted:
-        rgba(211, 216, 207, 0.66);
-
-    --onsen-sage:
-        rgba(137, 158, 136, 0.86);
-
-    --onsen-sage-light:
-        rgba(177, 194, 172, 0.90);
+    --onsen-sage: rgba(145, 169, 143, 0.88);
+    --onsen-sage-light: rgba(190, 207, 184, 0.94);
 
     /*
-    Kept for compatibility with the existing widget HTML.
-    These are now neutral cream/sage rather than brown.
+    These are kept because the existing HTML uses them.
+    They are sage/cream now rather than brown.
     */
-    --onsen-brown:
-        rgba(157, 171, 151, 0.72);
 
-    --onsen-brown-light:
-        rgba(211, 216, 195, 0.84);
+    --onsen-brown: rgba(145, 169, 143, 0.75);
+    --onsen-brown-light: rgba(210, 221, 202, 0.88);
 
-    --onsen-border:
-        rgba(190, 205, 187, 0.17);
+    --onsen-border: rgba(205, 219, 201, 0.16);
+    --onsen-border-light: rgba(225, 233, 222, 0.10);
 
-    --onsen-border-light:
-        rgba(220, 228, 216, 0.11);
-
-    --onsen-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.13);
-
-    --onsen-radius-large: 16px;
-    --onsen-radius-medium: 12px;
-    --onsen-radius-small: 9px;
+    --onsen-radius-large: 14px;
+    --onsen-radius-medium: 10px;
+    --onsen-radius-small: 8px;
 
     --onsen-heading-font:
         Georgia,
@@ -59,7 +43,6 @@
 
     --onsen-body-font:
         Inter,
-        ui-sans-serif,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
@@ -69,17 +52,21 @@
 
 
 /* =====================================================
-   2. Reset and page
+   RESET
    ===================================================== */
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
 html,
 body {
     width: 100%;
+    min-width: 0;
     min-height: 100%;
+
     margin: 0;
     padding: 0;
 
@@ -93,37 +80,39 @@ body {
 }
 
 body {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-
-    padding: 4px;
+    padding: 3px !important;
 }
 
 
 /* =====================================================
-   3. Main widget shell
+   MAIN WIDGET
    ===================================================== */
 
 .onsen-widget {
-    position: relative;
+    position: relative !important;
 
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: none !important;
 
-    margin: 0;
+    margin: 0 !important;
 
-    overflow: hidden;
+    overflow: hidden !important;
 
-    background: var(--onsen-background);
+    background: var(--onsen-background) !important;
 
-    border: 1px solid var(--onsen-border);
-    border-radius: var(--onsen-radius-large);
+    border: 1px solid var(--onsen-border) !important;
+    border-radius: var(--onsen-radius-large) !important;
 
-    box-shadow: var(--onsen-shadow);
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.11) !important;
 
-    backdrop-filter: blur(12px) saturate(108%);
-    -webkit-backdrop-filter: blur(12px) saturate(108%);
+    backdrop-filter:
+        blur(12px)
+        saturate(108%) !important;
+
+    -webkit-backdrop-filter:
+        blur(12px)
+        saturate(108%) !important;
 }
 
 .onsen-widget::before {
@@ -131,6 +120,7 @@ body {
 
     position: absolute;
     inset: 0;
+    z-index: 0;
 
     pointer-events: none;
 
@@ -143,71 +133,90 @@ body {
 }
 
 .onsen-content {
-    position: relative;
-    z-index: 1;
+    position: relative !important;
+    z-index: 2 !important;
 
-    padding: 14px;
+    padding: 13px !important;
 }
 
 
 /* =====================================================
-   4. Typography
+   SHARED TYPOGRAPHY
    ===================================================== */
 
 .onsen-title {
-    margin: 0;
+    margin: 0 !important;
 
-    color: var(--onsen-text);
+    color: var(--onsen-text) !important;
 
-    font-family: var(--onsen-heading-font);
-    font-size: clamp(18px, 4vw, 23px);
-    font-weight: 500;
-    line-height: 1.15;
-    letter-spacing: 0.01em;
+    font-family: var(--onsen-heading-font) !important;
+    font-size: clamp(18px, 5vw, 22px) !important;
+    font-weight: 500 !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0.01em !important;
+
+    text-align: center !important;
 }
 
 .onsen-subtitle {
-    margin: 4px 0 0;
+    margin: 4px 0 0 !important;
 
-    color: var(--onsen-muted);
+    color: var(--onsen-muted) !important;
 
-    font-size: 12px;
-    line-height: 1.45;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+
+    text-align: center !important;
 }
 
 .onsen-label {
-    margin: 0;
+    margin: 0 !important;
 
-    color: var(--onsen-sage-light);
+    color: var(--onsen-sage-light) !important;
 
-    font-size: 9px;
-    font-weight: 650;
-    line-height: 1.2;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-family: var(--onsen-body-font) !important;
+    font-size: 8px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
 }
 
 .onsen-center {
-    text-align: center;
+    text-align: center !important;
+}
+
+.onsen-muted {
+    color: var(--onsen-muted) !important;
+}
+
+.onsen-margin-top-small {
+    margin-top: 4px !important;
+}
+
+.onsen-margin-top-medium {
+    margin-top: 8px !important;
+}
+
+.onsen-margin-bottom-small {
+    margin-bottom: 4px !important;
 }
 
 
 /* =====================================================
-   5. Divider
+   DIVIDER
    ===================================================== */
 
 .onsen-divider {
-    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
 
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    width: 100% !important;
 
-    width: 100%;
+    margin: 8px 0 !important;
 
-    margin: 9px 0;
-
-    color: var(--onsen-muted);
+    color: var(--onsen-muted) !important;
 }
 
 .onsen-divider::before,
@@ -216,6 +225,7 @@ body {
 
     flex: 1;
 
+    min-width: 0;
     height: 1px;
 
     background:
@@ -224,113 +234,102 @@ body {
             transparent,
             var(--onsen-border),
             transparent
-        );
+        ) !important;
 }
 
 .onsen-divider-symbol {
     flex: 0 0 auto;
 
-    color: var(--onsen-sage);
+    color: var(--onsen-sage) !important;
 
-    font-family: var(--onsen-heading-font);
-    font-size: 9px;
-    font-style: italic;
-    letter-spacing: 0.05em;
+    font-family: var(--onsen-heading-font) !important;
+    font-size: 8px !important;
+    font-style: italic !important;
+    letter-spacing: 0.04em !important;
 }
 
 
 /* =====================================================
-   6. Shared panels
+   SHARED PANELS
    ===================================================== */
 
 .onsen-panel {
-    padding: 10px;
+    padding: 9px !important;
 
-    background: var(--onsen-background-soft);
+    background: var(--onsen-panel) !important;
 
-    border: 1px solid var(--onsen-border-light);
-    border-radius: var(--onsen-radius-medium);
-}
-
-.onsen-panel:hover {
-    background: var(--onsen-background-hover);
+    border: 1px solid var(--onsen-border-light) !important;
+    border-radius: var(--onsen-radius-medium) !important;
 }
 
 
 /* =====================================================
-   7. Buttons
+   BUTTONS
    ===================================================== */
 
 .onsen-button {
     appearance: none;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    min-height: 32px;
-    padding: 7px 12px;
+    min-height: 30px !important;
+    padding: 6px 11px !important;
 
-    color: var(--onsen-text);
-
-    font: inherit;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
+    color: var(--onsen-text) !important;
 
     cursor: pointer;
 
-    background: rgba(139, 160, 138, 0.11);
+    background:
+        rgba(145, 169, 143, 0.12) !important;
 
-    border: 1px solid rgba(175, 194, 171, 0.20);
-    border-radius: 999px;
+    border:
+        1px solid
+        rgba(190, 207, 184, 0.21) !important;
 
-    transition:
-        background 160ms ease,
-        border-color 160ms ease,
-        transform 160ms ease;
+    border-radius: 999px !important;
+
+    font-family: var(--onsen-body-font) !important;
+    font-size: 10px !important;
+    font-weight: 650 !important;
 }
 
 .onsen-button:hover {
-    background: rgba(139, 160, 138, 0.18);
-    border-color: rgba(190, 209, 187, 0.31);
-}
+    background:
+        rgba(145, 169, 143, 0.20) !important;
 
-.onsen-button:active {
-    transform: translateY(1px);
-}
-
-.onsen-button:focus-visible {
-    outline: 2px solid var(--onsen-sage-light);
-    outline-offset: 2px;
+    border-color:
+        rgba(190, 207, 184, 0.34) !important;
 }
 
 
 /* =====================================================
-   8. Footer
+   FOOTER
    ===================================================== */
 
 .onsen-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
 
-    margin-top: 10px;
+    margin-top: 9px !important;
 
-    color: rgba(211, 216, 207, 0.52);
+    color:
+        rgba(218, 223, 214, 0.48) !important;
 
-    text-align: center;
-    font-family: var(--onsen-heading-font);
-    font-size: 9px;
-    font-style: italic;
-    line-height: 1.3;
+    font-family: var(--onsen-heading-font) !important;
+    font-size: 8px !important;
+    font-style: italic !important;
+    line-height: 1.3 !important;
+    text-align: center !important;
 }
 
 .onsen-footer-line {
     flex: 1;
 
-    max-width: 42px;
+    max-width: 36px;
     height: 1px;
 
     background:
@@ -338,7 +337,7 @@ body {
             to right,
             transparent,
             var(--onsen-border)
-        );
+        ) !important;
 }
 
 .onsen-footer-line:last-child {
@@ -347,60 +346,64 @@ body {
             to left,
             transparent,
             var(--onsen-border)
-        );
+        ) !important;
 }
 
 .onsen-footer-symbol {
-    color: var(--onsen-sage);
-    font-size: 10px;
+    color: var(--onsen-sage) !important;
+    font-size: 9px !important;
 }
 
 
 /* =====================================================
-   9. Minimal decorative steam
+   STEAM DECORATION
    ===================================================== */
 
 .onsen-steam {
-    position: absolute;
-    top: 7px;
-    right: 11px;
-    z-index: 0;
+    position: absolute !important;
+    top: 7px !important;
+    right: 10px !important;
+    z-index: 1 !important;
 
-    display: flex;
-    gap: 4px;
+    display: flex !important;
+    gap: 3px !important;
 
-    opacity: 0.12;
+    opacity: 0.10 !important;
 
     pointer-events: none;
 }
 
 .onsen-steam span {
-    display: block;
+    display: block !important;
 
-    width: 5px;
-    height: 18px;
+    width: 4px !important;
+    height: 16px !important;
 
-    border-left: 1px solid var(--onsen-sage-light);
-    border-radius: 50%;
+    border-left:
+        1px solid
+        var(--onsen-sage-light) !important;
+
+    border-radius: 50% !important;
 
     animation:
-        onsen-steam-float
+        onsen-steam
         5s
         ease-in-out
-        infinite;
+        infinite !important;
 }
 
 .onsen-steam span:nth-child(2) {
-    height: 22px;
-    animation-delay: 0.8s;
+    height: 20px !important;
+    animation-delay: 0.8s !important;
 }
 
 .onsen-steam span:nth-child(3) {
-    height: 16px;
-    animation-delay: 1.6s;
+    height: 14px !important;
+    animation-delay: 1.6s !important;
 }
 
-@keyframes onsen-steam-float {
+@keyframes onsen-steam {
+
     0%,
     100% {
         opacity: 0.20;
@@ -408,26 +411,27 @@ body {
     }
 
     50% {
-        opacity: 0.65;
+        opacity: 0.70;
         transform: translateY(-4px);
     }
+
 }
 
 
 /* =====================================================
-   10. Minimal plant decoration
+   PLANT DECORATION
    ===================================================== */
 
 .onsen-plant {
-    position: absolute;
-    right: 8px;
-    bottom: 5px;
-    z-index: 0;
+    position: absolute !important;
+    right: 8px !important;
+    bottom: 6px !important;
+    z-index: 1 !important;
 
-    width: 32px;
-    height: 32px;
+    width: 28px !important;
+    height: 28px !important;
 
-    opacity: 0.10;
+    opacity: 0.08 !important;
 
     pointer-events: none;
 }
@@ -437,374 +441,816 @@ body {
     content: "";
 
     position: absolute;
-    bottom: 4px;
+    bottom: 3px;
 
-    width: 11px;
-    height: 23px;
+    width: 9px;
+    height: 20px;
 
     background: var(--onsen-sage);
-    border-radius: 100% 0 100% 0;
+
+    border-radius:
+        100%
+        0
+        100%
+        0;
 }
 
 .onsen-plant::before {
-    left: 7px;
-    transform: rotate(-28deg);
+    left: 6px;
+
+    transform:
+        rotate(-28deg);
 }
 
 .onsen-plant::after {
-    right: 7px;
-    transform: scaleX(-1) rotate(-28deg);
+    right: 6px;
+
+    transform:
+        scaleX(-1)
+        rotate(-28deg);
 }
 
 
 /* =====================================================
-   11. Utilities
-   ===================================================== */
-
-.onsen-hidden,
-[hidden] {
-    display: none !important;
-}
-
-.onsen-margin-top-small {
-    margin-top: 4px;
-}
-
-.onsen-margin-top-medium {
-    margin-top: 9px;
-}
-
-.onsen-margin-bottom-small {
-    margin-bottom: 4px;
-}
-
-.onsen-muted {
-    color: var(--onsen-muted);
-}
-
-
-/* =====================================================
-   12. Compact calendar overrides
-   These use !important because calendar.html contains
-   its own styles after this stylesheet.
+   CALENDAR
    ===================================================== */
 
 .onsen-calendar-header {
-    margin-bottom: 7px !important;
+    position: relative !important;
+    z-index: 2 !important;
+
+    margin: 0 0 7px !important;
+
+    text-align: center !important;
 }
 
 .onsen-calendar-month,
 .onsen-calendar-title {
-    font-size: clamp(18px, 4vw, 22px) !important;
+    margin: 0 !important;
+
+    color: var(--onsen-text) !important;
+
+    font-family: var(--onsen-heading-font) !important;
+    font-size: clamp(18px, 5vw, 22px) !important;
+    font-weight: 500 !important;
+    line-height: 1.15 !important;
+
+    text-align: center !important;
 }
 
-.onsen-calendar-weekdays,
-.onsen-calendar-grid {
+.onsen-calendar-weekdays {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(
+            7,
+            minmax(0, 1fr)
+        ) !important;
+
     gap: 3px !important;
+
+    margin-bottom: 3px !important;
+}
+
+.onsen-calendar-grid,
+#calendarGrid {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(
+            7,
+            minmax(0, 1fr)
+        ) !important;
+
+    gap: 3px !important;
+
+    width: 100% !important;
 }
 
 .onsen-calendar-weekday {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-width: 0 !important;
     padding: 3px 0 !important;
 
-    font-size: 8px !important;
-    letter-spacing: 0.08em !important;
+    color: var(--onsen-muted) !important;
+
+    font-family: var(--onsen-body-font) !important;
+    font-size: 7px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.07em !important;
+    text-transform: uppercase !important;
 }
 
 .onsen-calendar-day {
-    min-height: 30px !important;
-    padding: 4px 2px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    font-size: 11px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 28px !important;
+
+    padding: 3px !important;
+
+    color: var(--onsen-text) !important;
 
     background: transparent !important;
 
-    border-color: transparent !important;
-    border-radius: 8px !important;
+    border:
+        1px solid
+        transparent !important;
+
+    border-radius: 7px !important;
+
+    font-family: var(--onsen-body-font) !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    text-align: center !important;
+
+    box-shadow: none !important;
 }
 
-.onsen-calendar-day:not(.onsen-calendar-empty):hover {
-    background: rgba(255, 255, 255, 0.045) !important;
+.onsen-calendar-day:not(
+    .onsen-calendar-empty
+):hover {
+    background:
+        var(--onsen-panel-hover) !important;
 }
 
+.onsen-calendar-empty {
+    color: transparent !important;
+
+    pointer-events: none !important;
+}
+
+.onsen-calendar-today,
 .onsen-calendar-day-today,
-.onsen-calendar-today {
+.onsen-calendar-day.is-today,
+.onsen-calendar-day[aria-current="date"] {
     color: var(--onsen-text) !important;
 
-    background: rgba(139, 160, 138, 0.16) !important;
+    background:
+        rgba(145, 169, 143, 0.18) !important;
 
-    border-color: rgba(177, 194, 172, 0.24) !important;
+    border-color:
+        rgba(190, 207, 184, 0.26) !important;
+
+    font-weight: 700 !important;
 
     box-shadow: none !important;
 }
 
 
 /* =====================================================
-   13. Compact clock overrides
+   CLOCK
    ===================================================== */
 
-.onsen-clock-display {
-    margin: 10px 0 5px !important;
+.onsen-clock-header {
+    position: relative !important;
+    z-index: 2 !important;
 
-    font-size: clamp(42px, 14vw, 66px) !important;
-    letter-spacing: 0.015em !important;
+    text-align: center !important;
+}
+
+.onsen-clock-display {
+    position: relative !important;
+    z-index: 2 !important;
+
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+
+    margin: 9px 0 4px !important;
+
+    color: var(--onsen-text) !important;
+
+    font-family: var(--onsen-heading-font) !important;
+    font-size: clamp(40px, 15vw, 62px) !important;
+    font-weight: 400 !important;
+    line-height: 0.95 !important;
+    letter-spacing: 0.01em !important;
 
     text-shadow: none !important;
 }
 
 .onsen-clock-colon {
+    display: inline-block !important;
+
     margin: 0 2px !important;
+
+    color: var(--onsen-sage-light) !important;
+
+    animation:
+        onsen-colon
+        2s
+        ease-in-out
+        infinite !important;
 }
 
 .onsen-clock-date {
-    font-size: 12px !important;
+    margin: 0 !important;
+
+    color: var(--onsen-muted) !important;
+
+    font-family: var(--onsen-heading-font) !important;
+    font-size: 11px !important;
+    font-style: italic !important;
+    line-height: 1.3 !important;
+    text-align: center !important;
 }
 
 .onsen-clock-greeting {
-    margin-top: 4px !important;
+    margin: 4px 0 0 !important;
 
-    font-size: 8px !important;
+    color: var(--onsen-sage-light) !important;
+
+    font-family: var(--onsen-body-font) !important;
+    font-size: 7px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.13em !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
 }
 
 .onsen-clock-scene {
-    height: 42px !important;
-    margin-top: 11px !important;
+    position: relative !important;
+    z-index: 2 !important;
 
-    background: rgba(255, 255, 255, 0.018) !important;
+    height: 39px !important;
+    margin-top: 10px !important;
 
-    border-color: var(--onsen-border-light) !important;
-    border-radius: 9px !important;
+    overflow: hidden !important;
+
+    background:
+        rgba(255, 255, 255, 0.018) !important;
+
+    border:
+        1px solid
+        var(--onsen-border-light) !important;
+
+    border-radius:
+        var(--onsen-radius-small) !important;
 }
 
 .onsen-clock-moon {
-    top: 8px !important;
-    right: 20px !important;
+    position: absolute !important;
+    top: 7px !important;
+    right: 18px !important;
 
-    width: 18px !important;
-    height: 18px !important;
+    width: 17px !important;
+    height: 17px !important;
 
-    background: var(--onsen-sage-light) !important;
+    background:
+        var(--onsen-sage-light) !important;
+
+    border-radius: 50% !important;
 
     box-shadow: none !important;
 }
 
 .onsen-clock-moon::after {
-    width: 18px !important;
-    height: 18px !important;
+    content: "" !important;
 
-    background: rgba(24, 30, 27, 0.88) !important;
+    position: absolute !important;
+    top: -3px !important;
+    left: 6px !important;
+
+    width: 17px !important;
+    height: 17px !important;
+
+    background:
+        rgba(24, 30, 27, 0.92) !important;
+
+    border-radius: 50% !important;
 }
 
 .onsen-clock-hill {
-    opacity: 0.35 !important;
+    position: absolute !important;
+    right: -22px !important;
+    bottom: -31px !important;
+
+    width: 190px !important;
+    height: 57px !important;
+
+    background:
+        rgba(121, 146, 120, 0.22) !important;
+
+    border-radius:
+        50%
+        50%
+        0
+        0 !important;
 }
 
 .onsen-clock-hill-secondary {
-    opacity: 0.20 !important;
+    position: absolute !important;
+    bottom: -35px !important;
+    left: -35px !important;
+
+    width: 230px !important;
+    height: 63px !important;
+
+    background:
+        rgba(117, 130, 112, 0.13) !important;
+
+    border-radius:
+        50%
+        50%
+        0
+        0 !important;
 }
 
 .onsen-clock-water {
-    height: 13px !important;
+    position: absolute !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
 
-    background: rgba(112, 139, 125, 0.14) !important;
+    height: 12px !important;
+
+    background:
+        rgba(115, 143, 131, 0.13) !important;
+
+    border-top:
+        1px solid
+        rgba(190, 207, 184, 0.11) !important;
+}
+
+.onsen-clock-water::before,
+.onsen-clock-water::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    height: 1px !important;
+
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            rgba(239, 241, 233, 0.17),
+            transparent
+        ) !important;
+}
+
+.onsen-clock-water::before {
+    top: 4px !important;
+    left: 12% !important;
+
+    width: 38% !important;
+}
+
+.onsen-clock-water::after {
+    top: 8px !important;
+    right: 9% !important;
+
+    width: 31% !important;
 }
 
 .onsen-clock-scene-steam {
-    bottom: 9px !important;
+    position: absolute !important;
+    bottom: 8px !important;
+    left: 46% !important;
 
-    transform: scale(0.72);
-    transform-origin: bottom center;
+    display: flex !important;
+    gap: 4px !important;
 
-    opacity: 0.22 !important;
+    opacity: 0.18 !important;
+}
+
+.onsen-clock-scene-steam span {
+    display: block !important;
+
+    width: 5px !important;
+    height: 17px !important;
+
+    border-left:
+        1px solid
+        rgba(239, 241, 233, 0.55) !important;
+
+    border-radius: 50% !important;
+
+    animation:
+        onsen-scene-steam
+        4.5s
+        ease-in-out
+        infinite !important;
+}
+
+.onsen-clock-scene-steam span:nth-child(2) {
+    height: 22px !important;
+    animation-delay: 0.8s !important;
+}
+
+.onsen-clock-scene-steam span:nth-child(3) {
+    height: 15px !important;
+    animation-delay: 1.6s !important;
+}
+
+@keyframes onsen-colon {
+
+    0%,
+    100% {
+        opacity: 0.45;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+}
+
+@keyframes onsen-scene-steam {
+
+    0%,
+    100% {
+        opacity: 0.20;
+
+        transform:
+            translateY(2px);
+    }
+
+    50% {
+        opacity: 0.72;
+
+        transform:
+            translateY(-3px);
+    }
+
 }
 
 
 /* =====================================================
-   14. Compact weather overrides
+   WEATHER
    ===================================================== */
 
-.onsen-weather-location {
-    margin-top: 3px !important;
+.onsen-weather-header {
+    position: relative !important;
+    z-index: 2 !important;
 
-    font-size: 11px !important;
+    text-align: center !important;
+}
+
+.onsen-weather-location {
+    margin: 3px 0 0 !important;
+
+    color: var(--onsen-muted) !important;
+
+    font-family: var(--onsen-heading-font) !important;
+    font-size: 10px !important;
+    font-style: italic !important;
+    line-height: 1.25 !important;
 }
 
 .onsen-weather-current {
-    grid-template-columns: 52px 1fr !important;
-    gap: 11px !important;
+    position: relative !important;
+    z-index: 2 !important;
 
-    margin-top: 9px !important;
-    padding: 10px !important;
+    display: grid !important;
 
-    background: rgba(255, 255, 255, 0.022) !important;
+    grid-template-columns:
+        49px
+        minmax(0, 1fr) !important;
 
-    border-color: var(--onsen-border-light) !important;
-    border-radius: 10px !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    margin-top: 8px !important;
+    padding: 9px !important;
+
+    background:
+        var(--onsen-panel) !important;
+
+    border:
+        1px solid
+        var(--onsen-border-light) !important;
+
+    border-radius:
+        var(--onsen-radius-medium) !important;
 }
 
 .onsen-weather-icon {
-    width: 52px !important;
-    height: 52px !important;
+    display: grid !important;
+    place-items: center !important;
+
+    width: 49px !important;
+    height: 49px !important;
+
+    color:
+        var(--onsen-sage-light) !important;
 
     background: transparent !important;
 
-    border-color: rgba(211, 216, 195, 0.09) !important;
+    border:
+        1px solid
+        rgba(210, 221, 202, 0.09) !important;
 
-    font-size: 29px !important;
+    border-radius: 50% !important;
+
+    font-size: 27px !important;
+    line-height: 1 !important;
 
     text-shadow: none !important;
 }
 
 .onsen-weather-temperature {
-    font-size: clamp(35px, 10vw, 48px) !important;
+    margin: 0 !important;
+
+    color: var(--onsen-text) !important;
+
+    font-family: var(--onsen-heading-font) !important;
+    font-size: clamp(34px, 11vw, 46px) !important;
+    font-weight: 400 !important;
+    line-height: 0.9 !important;
+}
+
+.onsen-weather-temperature-unit {
+    color:
+        var(--onsen-sage-light) !important;
+
+    font-size: 0.42em !important;
+    vertical-align: top !important;
 }
 
 .onsen-weather-description {
-    margin-top: 3px !important;
+    margin: 4px 0 0 !important;
 
-    font-size: 12px !important;
+    color: var(--onsen-muted) !important;
+
+    font-family: var(--onsen-heading-font) !important;
+    font-size: 11px !important;
+    font-style: italic !important;
+    line-height: 1.25 !important;
 }
 
 .onsen-weather-feels-like {
-    margin-top: 3px !important;
+    margin: 3px 0 0 !important;
 
-    font-size: 8px !important;
+    color:
+        var(--onsen-sage-light) !important;
+
+    font-family: var(--onsen-body-font) !important;
+    font-size: 7px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.10em !important;
+    text-transform: uppercase !important;
 }
 
 .onsen-weather-details {
+    position: relative !important;
+    z-index: 2 !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        ) !important;
+
     gap: 5px !important;
 
-    margin-top: 6px !important;
+    margin-top: 5px !important;
 }
 
 .onsen-weather-detail {
-    padding: 8px 3px !important;
+    min-width: 0 !important;
 
-    background: rgba(255, 255, 255, 0.016) !important;
+    padding: 7px 3px !important;
 
-    border-color: var(--onsen-border-light) !important;
-    border-radius: 8px !important;
+    text-align: center !important;
+
+    background:
+        rgba(255, 255, 255, 0.018) !important;
+
+    border:
+        1px solid
+        var(--onsen-border-light) !important;
+
+    border-radius:
+        var(--onsen-radius-small) !important;
 }
 
 .onsen-weather-detail-label {
+    display: block !important;
+
     margin-bottom: 3px !important;
 
-    font-size: 7px !important;
+    color: var(--onsen-muted) !important;
+
+    font-family: var(--onsen-body-font) !important;
+    font-size: 6px !important;
+    font-weight: 700 !important;
     letter-spacing: 0.08em !important;
+    line-height: 1.15 !important;
+    text-transform: uppercase !important;
 }
 
 .onsen-weather-detail-value {
-    font-size: 11px !important;
+    display: block !important;
+
+    overflow: hidden !important;
+
+    color: var(--onsen-text) !important;
+
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 .onsen-weather-forecast {
+    position: relative !important;
+    z-index: 2 !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        ) !important;
+
     gap: 5px !important;
 }
 
 .onsen-weather-forecast-day {
-    padding: 8px 3px !important;
+    min-width: 0 !important;
 
-    background: rgba(255, 255, 255, 0.016) !important;
+    padding: 7px 3px !important;
 
-    border-color: var(--onsen-border-light) !important;
-    border-radius: 8px !important;
+    text-align: center !important;
+
+    background:
+        rgba(255, 255, 255, 0.018) !important;
+
+    border:
+        1px solid
+        var(--onsen-border-light) !important;
+
+    border-radius:
+        var(--onsen-radius-small) !important;
 }
 
 .onsen-weather-forecast-name {
-    font-size: 8px !important;
+    margin: 0 !important;
+
+    color:
+        var(--onsen-sage-light) !important;
+
+    font-family: var(--onsen-body-font) !important;
+    font-size: 7px !important;
+    font-weight: 700 !important;
     letter-spacing: 0.08em !important;
+    line-height: 1.15 !important;
+    text-transform: uppercase !important;
 }
 
 .onsen-weather-forecast-icon {
+    display: block !important;
+
     margin: 5px 0 4px !important;
 
-    font-size: 20px !important;
+    color:
+        var(--onsen-sage-light) !important;
+
+    font-size: 19px !important;
+    line-height: 1 !important;
 }
 
 .onsen-weather-forecast-temperature {
-    font-size: 11px !important;
+    margin: 0 !important;
+
+    color: var(--onsen-text) !important;
+
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+}
+
+.onsen-weather-forecast-low {
+    color: var(--onsen-muted) !important;
 }
 
 .onsen-weather-status {
-    padding: 20px 8px !important;
+    position: relative !important;
+    z-index: 2 !important;
 
-    font-size: 11px !important;
+    padding: 18px 7px !important;
+
+    color: var(--onsen-muted) !important;
+
+    font-family: var(--onsen-heading-font) !important;
+    font-size: 10px !important;
+    font-style: italic !important;
+    line-height: 1.35 !important;
+    text-align: center !important;
+}
+
+.onsen-weather-error {
+    color:
+        var(--onsen-sage-light) !important;
 }
 
 
 /* =====================================================
-   15. Smaller embeds
+   HIDDEN ELEMENTS
    ===================================================== */
 
-@media (max-width: 520px) {
-    body {
-        padding: 2px;
-    }
+[hidden],
+.onsen-hidden {
+    display: none !important;
+}
 
-    .onsen-widget {
-        border-radius: 13px;
+
+/* =====================================================
+   SMALL NOTION COLUMNS
+   ===================================================== */
+
+@media (max-width: 390px) {
+
+    body {
+        padding: 2px !important;
     }
 
     .onsen-content {
-        padding: 11px;
+        padding: 10px !important;
     }
 
-    .onsen-title {
-        font-size: 18px;
-    }
-
-    .onsen-divider {
-        margin: 7px 0;
-    }
-
-    .onsen-footer {
-        margin-top: 8px;
-
-        font-size: 8px;
+    .onsen-widget {
+        border-radius: 12px !important;
     }
 
     .onsen-calendar-day {
-        min-height: 27px !important;
+        min-height: 25px !important;
 
-        font-size: 10px !important;
+        font-size: 9px !important;
     }
 
     .onsen-clock-display {
-        font-size: clamp(38px, 16vw, 54px) !important;
+        font-size:
+            clamp(
+                36px,
+                16vw,
+                49px
+            ) !important;
+    }
+
+    .onsen-clock-scene {
+        height: 35px !important;
     }
 
     .onsen-weather-current {
-        grid-template-columns: 47px 1fr !important;
+        grid-template-columns:
+            43px
+            minmax(0, 1fr) !important;
+
+        gap: 8px !important;
     }
 
     .onsen-weather-icon {
-        width: 47px !important;
-        height: 47px !important;
+        width: 43px !important;
+        height: 43px !important;
 
-        font-size: 26px !important;
+        font-size: 24px !important;
     }
+
+    .onsen-weather-temperature {
+        font-size:
+            clamp(
+                30px,
+                12vw,
+                40px
+            ) !important;
+    }
+
+    .onsen-weather-detail-value {
+        font-size: 9px !important;
+    }
+
 }
 
 
 /* =====================================================
-   16. Reduced motion
+   REDUCED MOTION
    ===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
-        scroll-behavior: auto !important;
+        animation-duration:
+            0.001ms !important;
 
-        animation-duration: 0.001ms !important;
-        animation-iteration-count: 1 !important;
+        animation-iteration-count:
+            1 !important;
 
-        transition-duration: 0.001ms !important;
+        transition-duration:
+            0.001ms !important;
     }
+
 }
-'''
-
-path = Path("/mnt/data/onsen.css")
-path.write_text(css, encoding="utf-8")
-
-print(f"Created {path} ({path.stat().st_size:,} bytes)")
-
