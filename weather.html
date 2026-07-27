@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Onsen Weather</title>
+
+    <link
+        rel="stylesheet"
+        href="css/onsen.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           Weather-specific styling
+           ===================================================== */
+
+        .onsen-weather-header {
+            position: relative;
+            z-index: 1;
+
+            text-align: center;
+        }
+
+
+        .onsen-weather-location {
+            margin: 7px 0 0;
+
+            color: var(--onsen-muted);
+
+            font-size: 14px;
+            font-style: italic;
+        }
+
+
+        .onsen-weather-current {
+            position: relative;
+            z-index: 1;
+
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 22px;
+
+            margin-top: 18px;
+            padding: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(125, 141, 114, 0.09),
+                    rgba(169, 130, 93, 0.06)
+                );
+
+            border: 1px solid var(--onsen-border-light);
+            border-radius: var(--onsen-radius-medium);
+        }
+
+
+        .onsen-weather-icon {
+            display: grid;
+            place-items: center;
+
+            width: 84px;
+            height: 84px;
+
+            color: var(--onsen-brown-light);
+
+            background: rgba(255, 255, 255, 0.025);
+
+            border: 1px solid rgba(207, 176, 140, 0.13);
+            border-radius: 50%;
+
+            font-size: 48px;
+            line-height: 1;
+
+            text-shadow:
+                0 0 20px rgba(207, 176, 140, 0.16);
+        }
+
+
+        .onsen-weather-temperature {
+            margin: 0;
+
+            color: var(--onsen-text);
+
+            font-size: clamp(48px, 14vw, 70px);
+            font-weight: normal;
+            line-height: 0.95;
+        }
+
+
+        .onsen-weather-temperature-unit {
+            color: var(--onsen-sage-light);
+
+            font-size: 0.45em;
+            vertical-align: top;
+        }
+
+
+        .onsen-weather-description {
+            margin: 8px 0 0;
+
+            color: var(--onsen-muted);
+
+            font-size: 16px;
+            font-style: italic;
+        }
+
+
+        .onsen-weather-feels-like {
+            margin: 5px 0 0;
+
+            color: var(--onsen-sage-light);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+
+        .onsen-weather-details {
+            position: relative;
+            z-index: 1;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+
+            margin-top: 10px;
+        }
+
+
+        .onsen-weather-detail {
+            padding: 12px 8px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.018);
+
+            border: 1px solid var(--onsen-border-light);
+            border-radius: var(--onsen-radius-small);
+        }
+
+
+        .onsen-weather-detail-label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: var(--onsen-muted);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+
+        .onsen-weather-detail-value {
+            color: var(--onsen-text);
+
+            font-size: 15px;
+        }
+
+
+        .onsen-weather-forecast {
+            position: relative;
+            z-index: 1;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+
+        .onsen-weather-forecast-day {
+            padding: 13px 7px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.018);
+
+            border: 1px solid var(--onsen-border-light);
+            border-radius: var(--onsen-radius-small);
+        }
+
+
+        .onsen-weather-forecast-name {
+            margin: 0;
+
+            color: var(--onsen-sage-light);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+
+        .onsen-weather-forecast-icon {
+            display: block;
+
+            margin: 9px 0 7px;
+
+            color: var(--onsen-brown-light);
+
+            font-size: 27px;
+            line-height: 1;
+        }
+
+
+        .onsen-weather-forecast-temperature {
+            margin: 0;
+
+            color: var(--onsen-text);
+
+            font-size: 14px;
+        }
+
+
+        .onsen-weather-forecast-low {
+            color: var(--onsen-muted);
+        }
+
+
+        .onsen-weather-status {
+            position: relative;
+            z-index: 1;
+
+            padding: 34px 10px;
+
+            color: var(--onsen-muted);
+
+            text-align: center;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+
+        .onsen-weather-error {
+            color: var(--onsen-brown-light);
+        }
+
+
+        @media (max-width: 500px) {
+
+            .onsen-weather-current {
+                gap: 14px;
+
+                padding: 16px;
+            }
+
+
+            .onsen-weather-icon {
+                width: 68px;
+                height: 68px;
+
+                font-size: 39px;
+            }
+
+
+            .onsen-weather-details,
+            .onsen-weather-forecast {
+                gap: 5px;
+            }
+
+
+            .onsen-weather-detail {
+                padding: 10px 4px;
+            }
+
+
+            .onsen-weather-detail-value {
+                font-size: 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <section
+        class="onsen-widget"
+        aria-label="Current weather forecast"
+    >
+
+        <div class="onsen-content">
+
+            <header class="onsen-weather-header">
+
+                <p class="onsen-label">
+                    Weather forecast
+                </p>
+
+
+                <h1 class="onsen-title onsen-margin-top-small">
+                    Today’s Weather
+                </h1>
+
+
+                <p
+                    class="onsen-weather-location"
+                    id="weatherLocation"
+                >
+                    Gosport, Hampshire
+                </p>
+
+            </header>
+
+
+            <div
+                class="onsen-divider"
+                aria-hidden="true"
+            >
+                <span class="onsen-divider-symbol">
+                    ❧
+                </span>
+            </div>
+
+
+            <div
+                class="onsen-weather-status"
+                id="weatherLoading"
+            >
+                Gathering the morning mist…
+            </div>
+
+
+            <div
+                id="weatherContent"
+                hidden
+            >
+
+                <section class="onsen-weather-current">
+
+                    <div
+                        class="onsen-weather-icon"
+                        id="weatherIcon"
+                        aria-hidden="true"
+                    >
+                        ☁
+                    </div>
+
+
+                    <div>
+
+                        <p class="onsen-weather-temperature">
+
+                            <span id="weatherTemperature">
+                                --
+                            </span><span
+                                class="onsen-weather-temperature-unit"
+                            >°C</span>
+
+                        </p>
+
+
+                        <p
+                            class="onsen-weather-description"
+                            id="weatherDescription"
+                        >
+                            Loading weather…
+                        </p>
+
+
+                        <p
+                            class="onsen-weather-feels-like"
+                            id="weatherFeelsLike"
+                        >
+                            Feels like --°C
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <section
+                    class="onsen-weather-details"
+                    aria-label="Weather details"
+                >
+
+                    <div class="onsen-weather-detail">
+
+                        <span class="onsen-weather-detail-label">
+                            High / Low
+                        </span>
+
+                        <span
+                            class="onsen-weather-detail-value"
+                            id="weatherHighLow"
+                        >
+                            --° / --°
+                        </span>
+
+                    </div>
+
+
+                    <div class="onsen-weather-detail">
+
+                        <span class="onsen-weather-detail-label">
+                            Rain
+                        </span>
+
+                        <span
+                            class="onsen-weather-detail-value"
+                            id="weatherRain"
+                        >
+                            --%
+                        </span>
+
+                    </div>
+
+
+                    <div class="onsen-weather-detail">
+
+                        <span class="onsen-weather-detail-label">
+                            Wind
+                        </span>
+
+                        <span
+                            class="onsen-weather-detail-value"
+                            id="weatherWind"
+                        >
+                            -- km/h
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <div
+                    class="onsen-divider"
+                    aria-hidden="true"
+                >
+                    <span class="onsen-divider-symbol">
+                        Three-day outlook
+                    </span>
+                </div>
+
+
+                <section
+                    class="onsen-weather-forecast"
+                    id="weatherForecast"
+                    aria-label="Three-day weather forecast"
+                ></section>
+
+            </div>
+
+
+            <footer class="onsen-footer">
+
+                <span
+                    class="onsen-footer-line"
+                    aria-hidden="true"
+                ></span>
+
+                <span
+                    class="onsen-footer-symbol"
+                    aria-hidden="true"
+                >
+                    ♨
+                </span>
+
+                <span>
+                    Whatever the weather, go gently.
+                </span>
+
+                <span
+                    class="onsen-footer-line"
+                    aria-hidden="true"
+                ></span>
+
+            </footer>
+
+        </div>
+
+
+        <div
+            class="onsen-steam"
+            aria-hidden="true"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </section>
+
+
+    <script src="js/onsen.js"></script>
+
+
+    <script>
+
+        "use strict";
+
+
+        /* =====================================================
+           Location settings
+
+           Change these three values to use another location.
+           ===================================================== */
+
+        const weatherLocation = {
+            name: "Gosport, Hampshire",
+            latitude: 50.7949,
+            longitude: -1.1291
+        };
+
+
+        /* =====================================================
+           Weather descriptions and icons
+           ===================================================== */
+
+        function getWeatherInformation(code, isDay = true) {
+
+            const weatherCodes = {
+
+                0: {
+                    description: "Clear skies",
+                    dayIcon: "☀",
+                    nightIcon: "☾"
+                },
+
+                1: {
+                    description: "Mainly clear",
+                    dayIcon: "☀",
+                    nightIcon: "☾"
+                },
+
+                2: {
+                    description: "Partly cloudy",
+                    dayIcon: "⛅",
+                    nightIcon: "☾"
+                },
+
+                3: {
+                    description: "Overcast",
+                    dayIcon: "☁",
+                    nightIcon: "☁"
+                },
+
+                45: {
+                    description: "Misty",
+                    dayIcon: "≋",
+                    nightIcon: "≋"
+                },
+
+                48: {
+                    description: "Freezing fog",
+                    dayIcon: "≋",
+                    nightIcon: "≋"
+                },
+
+                51: {
+                    description: "Light drizzle",
+                    dayIcon: "☂",
+                    nightIcon: "☂"
+                },
+
+                53: {
+                    description: "Drizzle",
+                    dayIcon: "☂",
+                    nightIcon: "☂"
+                },
+
+                55: {
+                    description: "Heavy drizzle",
+                    dayIcon: "☂",
+                    nightIcon: "☂"
+                },
+
+                56: {
+                    description: "Freezing drizzle",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                57: {
+                    description: "Heavy freezing drizzle",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                61: {
+                    description: "Light rain",
+                    dayIcon: "☂",
+                    nightIcon: "☂"
+                },
+
+                63: {
+                    description: "Rain",
+                    dayIcon: "☂",
+                    nightIcon: "☂"
+                },
+
+                65: {
+                    description: "Heavy rain",
+                    dayIcon: "☔",
+                    nightIcon: "☔"
+                },
+
+                66: {
+                    description: "Freezing rain",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                67: {
+                    description: "Heavy freezing rain",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                71: {
+                    description: "Light snow",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                73: {
+                    description: "Snow",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                75: {
+                    description: "Heavy snow",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                77: {
+                    description: "Snow grains",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                80: {
+                    description: "Light rain showers",
+                    dayIcon: "☂",
+                    nightIcon: "☂"
+                },
+
+                81: {
+                    description: "Rain showers",
+                    dayIcon: "☂",
+                    nightIcon: "☂"
+                },
+
+                82: {
+                    description: "Heavy rain showers",
+                    dayIcon: "☔",
+                    nightIcon: "☔"
+                },
+
+                85: {
+                    description: "Light snow showers",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                86: {
+                    description: "Heavy snow showers",
+                    dayIcon: "❄",
+                    nightIcon: "❄"
+                },
+
+                95: {
+                    description: "Thunderstorms",
+                    dayIcon: "ϟ",
+                    nightIcon: "ϟ"
+                },
+
+                96: {
+                    description: "Thunderstorms and hail",
+                    dayIcon: "ϟ",
+                    nightIcon: "ϟ"
+                },
+
+                99: {
+                    description: "Severe thunderstorms",
+                    dayIcon: "ϟ",
+                    nightIcon: "ϟ"
+                }
+
+            };
+
+
+            const weather =
+                weatherCodes[code] || {
+                    description: "Changing skies",
+                    dayIcon: "☁",
+                    nightIcon: "☁"
+                };
+
+
+            return {
+                description: weather.description,
+                icon: isDay
+                    ? weather.dayIcon
+                    : weather.nightIcon
+            };
+
+        }
+
+
+        /* =====================================================
+           Formatting helpers
+           ===================================================== */
+
+        function roundTemperature(value) {
+
+            return Math.round(value);
+
+        }
+
+
+        function getForecastDayName(dateString, index) {
+
+            if (index === 0) {
+                return "Today";
+            }
+
+
+            if (index === 1) {
+                return "Tomorrow";
+            }
+
+
+            const date =
+                new Date(`${dateString}T12:00:00`);
+
+
+            return date.toLocaleDateString(
+                "en-GB",
+                {
+                    weekday: "short"
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           Weather API
+           ===================================================== */
+
+        async function loadWeather() {
+
+            const loadingElement =
+                document.getElementById("weatherLoading");
+
+            const contentElement =
+                document.getElementById("weatherContent");
+
+
+            document.getElementById(
+                "weatherLocation"
+            ).textContent = weatherLocation.name;
+
+
+            const parameters =
+                new URLSearchParams({
+
+                    latitude:
+                        weatherLocation.latitude,
+
+                    longitude:
+                        weatherLocation.longitude,
+
+                    current: [
+                        "temperature_2m",
+                        "apparent_temperature",
+                        "weather_code",
+                        "is_day",
+                        "wind_speed_10m"
+                    ].join(","),
+
+                    daily: [
+                        "weather_code",
+                        "temperature_2m_max",
+                        "temperature_2m_min",
+                        "precipitation_probability_max"
+                    ].join(","),
+
+                    temperature_unit:
+                        "celsius",
+
+                    wind_speed_unit:
+                        "kmh",
+
+                    timezone:
+                        "auto",
+
+                    forecast_days:
+                        "3"
+
+                });
+
+
+            const apiAddress =
+                `https://api.open-meteo.com/v1/forecast?${parameters}`;
+
+
+            try {
+
+                const response =
+                    await fetch(apiAddress);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Weather request failed: ${response.status}`
+                    );
+
+                }
+
+
+                const weatherData =
+                    await response.json();
+
+
+                displayCurrentWeather(weatherData);
+
+                displayForecast(weatherData);
+
+
+                loadingElement.hidden = true;
+                contentElement.hidden = false;
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                loadingElement.classList.add(
+                    "onsen-weather-error"
+                );
+
+
+                loadingElement.textContent =
+                    "The weather has disappeared into the mist. Please try refreshing the widget.";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           Current weather
+           ===================================================== */
+
+        function displayCurrentWeather(weatherData) {
+
+            const current =
+                weatherData.current;
+
+            const daily =
+                weatherData.daily;
+
+
+            const weather =
+                getWeatherInformation(
+                    current.weather_code,
+                    current.is_day === 1
+                );
+
+
+            document.getElementById(
+                "weatherIcon"
+            ).textContent = weather.icon;
+
+
+            document.getElementById(
+                "weatherTemperature"
+            ).textContent =
+                roundTemperature(
+                    current.temperature_2m
+                );
+
+
+            document.getElementById(
+                "weatherDescription"
+            ).textContent =
+                weather.description;
+
+
+            document.getElementById(
+                "weatherFeelsLike"
+            ).textContent =
+                `Feels like ${roundTemperature(
+                    current.apparent_temperature
+                )}°C`;
+
+
+            document.getElementById(
+                "weatherHighLow"
+            ).textContent =
+                `${roundTemperature(
+                    daily.temperature_2m_max[0]
+                )}° / ${roundTemperature(
+                    daily.temperature_2m_min[0]
+                )}°`;
+
+
+            document.getElementById(
+                "weatherRain"
+            ).textContent =
+                `${Math.round(
+                    daily.precipitation_probability_max[0] ?? 0
+                )}%`;
+
+
+            document.getElementById(
+                "weatherWind"
+            ).textContent =
+                `${Math.round(
+                    current.wind_speed_10m
+                )} km/h`;
+
+        }
+
+
+        /* =====================================================
+           Three-day forecast
+           ===================================================== */
+
+        function displayForecast(weatherData) {
+
+            const daily =
+                weatherData.daily;
+
+            const forecastElement =
+                document.getElementById(
+                    "weatherForecast"
+                );
+
+
+            forecastElement.replaceChildren();
+
+
+            daily.time.forEach(
+                (dateString, index) => {
+
+                    const weather =
+                        getWeatherInformation(
+                            daily.weather_code[index],
+                            true
+                        );
+
+
+                    const forecastDay =
+                        document.createElement("article");
+
+
+                    forecastDay.className =
+                        "onsen-weather-forecast-day";
+
+
+                    const dayName =
+                        document.createElement("p");
+
+                    dayName.className =
+                        "onsen-weather-forecast-name";
+
+                    dayName.textContent =
+                        getForecastDayName(
+                            dateString,
+                            index
+                        );
+
+
+                    const icon =
+                        document.createElement("span");
+
+                    icon.className =
+                        "onsen-weather-forecast-icon";
+
+                    icon.textContent =
+                        weather.icon;
+
+                    icon.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+
+                    const temperature =
+                        document.createElement("p");
+
+                    temperature.className =
+                        "onsen-weather-forecast-temperature";
+
+
+                    const high =
+                        roundTemperature(
+                            daily.temperature_2m_max[index]
+                        );
+
+                    const low =
+                        roundTemperature(
+                            daily.temperature_2m_min[index]
+                        );
+
+
+                    temperature.innerHTML =
+                        `${high}° ` +
+                        `<span class="onsen-weather-forecast-low">` +
+                        `${low}°` +
+                        `</span>`;
+
+
+                    forecastDay.setAttribute(
+                        "aria-label",
+                        `${dayName.textContent}: ` +
+                        `${weather.description}, ` +
+                        `high ${high} degrees, ` +
+                        `low ${low} degrees`
+                    );
+
+
+                    forecastDay.append(
+                        dayName,
+                        icon,
+                        temperature
+                    );
+
+
+                    forecastElement.appendChild(
+                        forecastDay
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           Start and refresh
+           ===================================================== */
+
+        loadWeather();
+
+
+        window.setInterval(
+            loadWeather,
+            30 * 60 * 1000
+        );
+
+
+        onsenRefreshAfterMidnight(() => {
+
+            loadWeather();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
