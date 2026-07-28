@@ -15,7 +15,7 @@
     <style>
 
         /* =====================================================
-           PAGE
+           PAGE RESET
            ===================================================== */
 
         *,
@@ -27,13 +27,21 @@
         html,
         body {
             width: 100%;
+            height: auto;
+            min-height: 0;
 
             margin: 0;
             padding: 0;
 
             background: transparent;
+        }
 
-            color: #f1efe8;
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+
+            color: #efeee8;
 
             font-family:
                 -apple-system,
@@ -41,14 +49,6 @@
                 "Segoe UI",
                 Arial,
                 sans-serif;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-
-            padding: 8px;
 
             overflow: hidden;
         }
@@ -61,33 +61,34 @@
         .weather-card {
             position: relative;
 
-            width: calc(100% - 4px);
+            width: 100%;
             max-width: 360px;
 
-            padding: 16px 18px;
+            margin: 0;
+            padding: 13px 14px 12px;
 
             overflow: hidden;
 
             background:
-                rgba(26, 35, 31, 0.58);
+                rgba(27, 31, 29, 0.55);
 
             border:
                 1px solid
-                rgba(190, 207, 184, 0.17);
+                rgba(175, 183, 165, 0.16);
 
-            border-radius: 16px;
+            border-radius: 15px;
 
             box-shadow:
-                0 8px 24px
-                rgba(0, 0, 0, 0.10);
+                0 7px 20px
+                rgba(0, 0, 0, 0.09);
 
             backdrop-filter:
-                blur(12px)
-                saturate(105%);
+                blur(11px)
+                saturate(95%);
 
             -webkit-backdrop-filter:
-                blur(12px)
-                saturate(105%);
+                blur(11px)
+                saturate(95%);
         }
 
         .weather-card::before {
@@ -101,8 +102,8 @@
             background:
                 linear-gradient(
                     145deg,
-                    rgba(255, 255, 255, 0.035),
-                    transparent 48%
+                    rgba(255, 255, 255, 0.028),
+                    transparent 46%
                 );
         }
 
@@ -115,49 +116,75 @@
             position: relative;
             z-index: 1;
 
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-
-            margin-bottom: 12px;
-        }
-
-        .weather-heading {
-            min-width: 0;
+            margin-bottom: 9px;
         }
 
         .weather-label {
-            margin: 0 0 4px;
+            margin: 0 0 3px;
 
             color:
-                rgba(190, 207, 184, 0.88);
+                rgba(174, 182, 160, 0.82);
 
             font-size: 8px;
             font-weight: 700;
-            letter-spacing: 0.16em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
+        }
+
+        .weather-heading-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
         }
 
         .weather-title {
             margin: 0;
 
-            color: #f3f1e9;
+            color: #f1efe9;
 
             font-family:
                 Georgia,
                 "Times New Roman",
                 serif;
 
-            font-size: 23px;
+            font-size: 22px;
             font-weight: 400;
             line-height: 1.1;
         }
 
         .weather-location {
-            margin: 4px 0 0;
+            margin: 0;
 
             color:
-                rgba(218, 223, 214, 0.56);
+                rgba(205, 208, 198, 0.48);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 10px;
+            font-style: italic;
+            line-height: 1.2;
+
+            text-align: right;
+        }
+
+
+        /* =====================================================
+           LOADING AND ERROR
+           ===================================================== */
+
+        .weather-status {
+            position: relative;
+            z-index: 1;
+
+            margin: 0;
+            padding: 24px 8px;
+
+            color:
+                rgba(205, 208, 198, 0.58);
 
             font-family:
                 Georgia,
@@ -166,73 +193,13 @@
 
             font-size: 11px;
             font-style: italic;
-        }
-
-
-        /* =====================================================
-           MOON
-           ===================================================== */
-
-        .weather-moon {
-            position: relative;
-
-            width: 16px;
-            height: 16px;
-
-            flex: 0 0 auto;
-
-            margin-top: 3px;
-
-            background:
-                rgba(217, 224, 205, 0.88);
-
-            border-radius: 50%;
-        }
-
-        .weather-moon::after {
-            content: "";
-
-            position: absolute;
-            top: -3px;
-            left: 6px;
-
-            width: 16px;
-            height: 16px;
-
-            background:
-                rgba(28, 37, 33, 0.98);
-
-            border-radius: 50%;
-        }
-
-
-        /* =====================================================
-           LOADING AND ERROR MESSAGE
-           ===================================================== */
-
-        .weather-status {
-            position: relative;
-            z-index: 1;
-
-            padding: 28px 10px;
-
-            color:
-                rgba(218, 223, 214, 0.60);
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 12px;
-            font-style: italic;
             line-height: 1.4;
             text-align: center;
         }
 
         .weather-status.error {
             color:
-                rgba(210, 221, 202, 0.90);
+                rgba(210, 211, 194, 0.82);
         }
 
         [hidden] {
@@ -251,63 +218,74 @@
             display: grid;
 
             grid-template-columns:
-                65px
+                54px
                 minmax(0, 1fr);
 
             align-items: center;
-            gap: 13px;
+            gap: 10px;
 
-            padding: 11px 12px;
-
-            background:
-                rgba(255, 255, 255, 0.025);
-
-            border:
-                1px solid
-                rgba(225, 233, 222, 0.10);
-
-            border-radius: 11px;
-        }
-
-        .weather-icon {
-            display: grid;
-            place-items: center;
-
-            width: 65px;
-            height: 65px;
-
-            color:
-                rgba(210, 221, 202, 0.92);
+            padding: 9px 10px;
 
             background:
                 rgba(255, 255, 255, 0.018);
 
             border:
                 1px solid
-                rgba(210, 221, 202, 0.10);
+                rgba(175, 183, 165, 0.11);
+
+            border-radius: 10px;
+        }
+
+        .weather-icon {
+            display: grid;
+            place-items: center;
+
+            width: 54px;
+            height: 54px;
+
+            color:
+                rgba(210, 211, 194, 0.84);
+
+            background:
+                rgba(255, 255, 255, 0.014);
+
+            border:
+                1px solid
+                rgba(175, 183, 165, 0.11);
 
             border-radius: 50%;
-
-            font-size: 34px;
-            line-height: 1;
-        }
-
-        .weather-temperature-row {
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .weather-temperature {
-            margin: 0;
-
-            color: #f3f1e9;
 
             font-family:
                 Georgia,
                 "Times New Roman",
                 serif;
 
-            font-size: 46px;
+            font-size: 29px;
+            line-height: 1;
+        }
+
+        .weather-main {
+            min-width: 0;
+        }
+
+        .weather-temperature-row {
+            display: flex;
+            align-items: flex-start;
+
+            margin: 0;
+        }
+
+        .weather-temperature {
+            margin: 0;
+
+            color: #f1efe9;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 41px;
             font-weight: 400;
             line-height: 0.9;
         }
@@ -316,41 +294,42 @@
             margin: 1px 0 0 2px;
 
             color:
-                rgba(190, 207, 184, 0.88);
+                rgba(174, 182, 160, 0.82);
 
             font-family:
                 Georgia,
                 "Times New Roman",
                 serif;
 
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .weather-description {
-            margin: 7px 0 0;
+            margin: 6px 0 0;
 
             color:
-                rgba(218, 223, 214, 0.68);
+                rgba(205, 208, 198, 0.66);
 
             font-family:
                 Georgia,
                 "Times New Roman",
                 serif;
 
-            font-size: 12px;
+            font-size: 11px;
             font-style: italic;
             line-height: 1.2;
         }
 
         .weather-feels-like {
-            margin: 4px 0 0;
+            margin: 3px 0 0;
 
             color:
-                rgba(190, 207, 184, 0.78);
+                rgba(174, 182, 160, 0.72);
 
             font-size: 7px;
             font-weight: 700;
-            letter-spacing: 0.11em;
+            letter-spacing: 0.09em;
+            line-height: 1.2;
             text-transform: uppercase;
         }
 
@@ -373,22 +352,22 @@
 
             gap: 5px;
 
-            margin-top: 6px;
+            margin-top: 5px;
         }
 
         .weather-detail {
             min-width: 0;
 
-            padding: 8px 4px;
+            padding: 7px 3px;
 
             text-align: center;
 
             background:
-                rgba(255, 255, 255, 0.018);
+                rgba(255, 255, 255, 0.014);
 
             border:
                 1px solid
-                rgba(225, 233, 222, 0.09);
+                rgba(175, 183, 165, 0.09);
 
             border-radius: 8px;
         }
@@ -396,14 +375,14 @@
         .weather-detail-label {
             display: block;
 
-            margin-bottom: 4px;
+            margin-bottom: 3px;
 
             color:
-                rgba(218, 223, 214, 0.48);
+                rgba(205, 208, 198, 0.43);
 
             font-size: 6px;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.07em;
             line-height: 1.2;
             text-transform: uppercase;
         }
@@ -414,9 +393,9 @@
             overflow: hidden;
 
             color:
-                rgba(241, 239, 232, 0.88);
+                rgba(239, 238, 232, 0.82);
 
-            font-size: 10px;
+            font-size: 9px;
             line-height: 1.2;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -429,37 +408,41 @@
 
         @media (max-width: 330px) {
 
-            body {
-                padding: 5px;
+            .weather-card {
+                padding: 11px 12px 10px;
             }
 
-            .weather-card {
-                padding: 14px 13px;
+            .weather-title {
+                font-size: 20px;
+            }
+
+            .weather-location {
+                font-size: 9px;
             }
 
             .weather-current {
                 grid-template-columns:
-                    52px
+                    48px
                     minmax(0, 1fr);
 
-                gap: 10px;
+                gap: 8px;
 
-                padding: 9px;
+                padding: 8px;
             }
 
             .weather-icon {
-                width: 52px;
-                height: 52px;
+                width: 48px;
+                height: 48px;
 
-                font-size: 29px;
+                font-size: 26px;
             }
 
             .weather-temperature {
-                font-size: 40px;
+                font-size: 37px;
             }
 
             .weather-detail-value {
-                font-size: 9px;
+                font-size: 8px;
             }
 
         }
@@ -473,16 +456,16 @@
 
     <main
         class="weather-card"
-        aria-label="Current weather"
+        aria-label="Current weather in Gosport"
     >
 
         <header class="weather-header">
 
-            <div class="weather-heading">
+            <p class="weather-label">
+                Weather
+            </p>
 
-                <p class="weather-label">
-                    Weather forecast
-                </p>
+            <div class="weather-heading-row">
 
                 <h1 class="weather-title">
                     Today
@@ -497,20 +480,15 @@
 
             </div>
 
-            <span
-                class="weather-moon"
-                aria-hidden="true"
-            ></span>
-
         </header>
 
 
-        <div
+        <p
             class="weather-status"
             id="weatherStatus"
         >
-            Gathering the evening mist…
-        </div>
+            Gathering the mist…
+        </p>
 
 
         <div
@@ -529,7 +507,7 @@
                 </div>
 
 
-                <div>
+                <div class="weather-main">
 
                     <div class="weather-temperature-row">
 
@@ -657,7 +635,7 @@
 
                 2: [
                     "Partly cloudy",
-                    isDay ? "⛅" : "☾"
+                    "☁"
                 ],
 
                 3: [
@@ -712,7 +690,7 @@
 
                 65: [
                     "Heavy rain",
-                    "☔"
+                    "☂"
                 ],
 
                 66: [
@@ -757,7 +735,7 @@
 
                 82: [
                     "Heavy rain showers",
-                    "☔"
+                    "☂"
                 ],
 
                 85: [
@@ -803,27 +781,23 @@
         }
 
 
-        function roundNumber(value) {
+        function roundWeatherValue(value) {
 
-            if (
-                value === null ||
-                value === undefined ||
-                Number.isNaN(Number(value))
-            ) {
+            const number =
+                Number(value);
+
+
+            if (!Number.isFinite(number)) {
                 return "--";
             }
 
 
-            return Math.round(
-                Number(value)
-            );
+            return Math.round(number);
 
         }
 
 
-        function displayWeather(
-            weatherData
-        ) {
+        function displayWeather(weatherData) {
 
             const current =
                 weatherData.current;
@@ -849,7 +823,7 @@
             document.getElementById(
                 "weatherTemperature"
             ).textContent =
-                roundNumber(
+                roundWeatherValue(
                     current.temperature_2m
                 );
 
@@ -864,7 +838,7 @@
                 "weatherFeelsLike"
             ).textContent =
                 "Feels like " +
-                roundNumber(
+                roundWeatherValue(
                     current.apparent_temperature
                 ) +
                 "°C";
@@ -873,11 +847,11 @@
             document.getElementById(
                 "weatherHighLow"
             ).textContent =
-                roundNumber(
+                roundWeatherValue(
                     daily.temperature_2m_max[0]
                 ) +
                 "° / " +
-                roundNumber(
+                roundWeatherValue(
                     daily.temperature_2m_min[0]
                 ) +
                 "°";
@@ -886,7 +860,7 @@
             document.getElementById(
                 "weatherRain"
             ).textContent =
-                roundNumber(
+                roundWeatherValue(
                     daily.precipitation_probability_max[0]
                 ) +
                 "%";
@@ -895,7 +869,7 @@
             document.getElementById(
                 "weatherWind"
             ).textContent =
-                roundNumber(
+                roundWeatherValue(
                     current.wind_speed_10m
                 ) +
                 " km/h";
@@ -925,7 +899,7 @@
 
 
             statusElement.textContent =
-                "Gathering the evening mist…";
+                "Gathering the mist…";
 
 
             contentElement.hidden = true;
@@ -938,47 +912,84 @@
 
 
             const apiAddress =
-                "https://api.open-meteo.com/v1/forecast" +
+                new URL(
+                    "https://api.open-meteo.com/v1/forecast"
+                );
 
-                "?latitude=" +
-                weatherLocation.latitude +
 
-                "&longitude=" +
-                weatherLocation.longitude +
+            apiAddress.searchParams.set(
+                "latitude",
+                weatherLocation.latitude
+            );
 
-                "&current=" +
-                "temperature_2m," +
-                "apparent_temperature," +
-                "weather_code," +
-                "is_day," +
-                "wind_speed_10m" +
 
-                "&daily=" +
-                "temperature_2m_max," +
-                "temperature_2m_min," +
-                "precipitation_probability_max" +
+            apiAddress.searchParams.set(
+                "longitude",
+                weatherLocation.longitude
+            );
 
-                "&temperature_unit=celsius" +
 
-                "&wind_speed_unit=kmh" +
+            apiAddress.searchParams.set(
+                "current",
+                [
+                    "temperature_2m",
+                    "apparent_temperature",
+                    "weather_code",
+                    "is_day",
+                    "wind_speed_10m"
+                ].join(",")
+            );
 
-                "&timezone=Europe%2FLondon" +
 
-                "&forecast_days=1";
+            apiAddress.searchParams.set(
+                "daily",
+                [
+                    "temperature_2m_max",
+                    "temperature_2m_min",
+                    "precipitation_probability_max"
+                ].join(",")
+            );
+
+
+            apiAddress.searchParams.set(
+                "temperature_unit",
+                "celsius"
+            );
+
+
+            apiAddress.searchParams.set(
+                "wind_speed_unit",
+                "kmh"
+            );
+
+
+            apiAddress.searchParams.set(
+                "timezone",
+                "Europe/London"
+            );
+
+
+            apiAddress.searchParams.set(
+                "forecast_days",
+                "1"
+            );
 
 
             try {
 
                 const response =
                     await fetch(
-                        apiAddress
+                        apiAddress,
+                        {
+                            cache: "no-store"
+                        }
                     );
 
 
                 if (!response.ok) {
 
                     throw new Error(
-                        "Weather request failed with status " +
+                        "Weather request returned " +
                         response.status
                     );
 
@@ -995,7 +1006,7 @@
                 ) {
 
                     throw new Error(
-                        "The weather response was incomplete."
+                        "Weather response was incomplete."
                     );
 
                 }
@@ -1023,7 +1034,7 @@
 
 
                 statusElement.textContent =
-                    "The weather could not be loaded. Please refresh the widget.";
+                    "The weather could not be loaded. Please refresh.";
 
             }
 
