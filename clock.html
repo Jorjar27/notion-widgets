@@ -10,12 +10,12 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Onsen Clock</title>
+    <title>Analogue Clock</title>
 
     <style>
 
         /* =====================================================
-           PAGE RESET
+           PAGE
            ===================================================== */
 
         *,
@@ -26,72 +26,61 @@
 
         html,
         body {
+            width: 100%;
+            height: auto;
+
             margin: 0;
             padding: 0;
 
-            width: 100%;
-
             background: transparent;
-
-            color: #f0eee7;
-
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Arial,
-                sans-serif;
         }
 
         body {
             display: flex;
-            justify-content: center;
             align-items: flex-start;
-
-            padding: 8px;
+            justify-content: center;
 
             overflow: hidden;
         }
 
 
         /* =====================================================
-           CLOCK CARD
+           CLOCK FACE
            ===================================================== */
 
-        .clock-card {
+        .clock-face {
             position: relative;
 
-            width: calc(100% - 4px);
-            max-width: 340px;
+            width: 190px;
+            height: 190px;
 
-            padding: 17px 20px 15px;
+            margin: 0;
 
             overflow: hidden;
 
             background:
-                rgba(26, 35, 31, 0.58);
+                rgba(27, 31, 29, 0.52);
 
             border:
                 1px solid
-                rgba(190, 207, 184, 0.17);
+                rgba(175, 183, 165, 0.22);
 
-            border-radius: 16px;
+            border-radius: 50%;
 
             box-shadow:
-                0 8px 24px
-                rgba(0, 0, 0, 0.10);
+                inset 0 0 22px
+                rgba(0, 0, 0, 0.08);
 
             backdrop-filter:
-                blur(12px)
-                saturate(105%);
+                blur(11px)
+                saturate(90%);
 
             -webkit-backdrop-filter:
-                blur(12px)
-                saturate(105%);
+                blur(11px)
+                saturate(90%);
         }
 
-
-        .clock-card::before {
+        .clock-face::before {
             content: "";
 
             position: absolute;
@@ -100,252 +89,151 @@
             pointer-events: none;
 
             background:
-                linear-gradient(
-                    145deg,
+                radial-gradient(
+                    circle at 34% 26%,
                     rgba(255, 255, 255, 0.035),
-                    transparent 48%
+                    transparent 45%
                 );
-        }
-
-
-        /* =====================================================
-           HEADER
-           ===================================================== */
-
-        .clock-header {
-            position: relative;
-            z-index: 1;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            margin-bottom: 9px;
-        }
-
-
-        .clock-greeting {
-            margin: 0;
-
-            color:
-                rgba(190, 207, 184, 0.88);
-
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-        }
-
-
-        /* =====================================================
-           CRESCENT MOON
-           ===================================================== */
-
-        .clock-moon {
-            position: relative;
-
-            width: 16px;
-            height: 16px;
-
-            flex: 0 0 auto;
-
-            background:
-                rgba(217, 224, 205, 0.88);
 
             border-radius: 50%;
         }
 
 
-        .clock-moon::after {
-            content: "";
+        /* =====================================================
+           MINUTE AND HOUR MARKERS
+           ===================================================== */
 
+        .clock-marker {
             position: absolute;
-            top: -3px;
-            left: 6px;
 
-            width: 16px;
-            height: 16px;
+            top: 7px;
+            left: 50%;
+
+            width: 1px;
+            height: 5px;
 
             background:
-                rgba(28, 37, 33, 0.98);
+                rgba(204, 207, 198, 0.25);
+
+            transform-origin:
+                50%
+                88px;
+        }
+
+        .clock-marker-major {
+            width: 2px;
+            height: 9px;
+
+            background:
+                rgba(174, 182, 160, 0.66);
+        }
+
+
+        /* =====================================================
+           CLOCK HANDS
+           ===================================================== */
+
+        .clock-hand {
+            position: absolute;
+
+            left: 50%;
+            bottom: 50%;
+
+            border-radius: 999px;
+
+            transform-origin:
+                50%
+                100%;
+        }
+
+        .clock-hour-hand {
+            z-index: 3;
+
+            width: 4px;
+            height: 45px;
+
+            background:
+                rgba(220, 219, 210, 0.90);
+        }
+
+        .clock-minute-hand {
+            z-index: 4;
+
+            width: 3px;
+            height: 65px;
+
+            background:
+                rgba(165, 173, 155, 0.90);
+        }
+
+        .clock-second-hand {
+            z-index: 5;
+
+            width: 1px;
+            height: 72px;
+
+            background:
+                rgba(139, 147, 131, 0.75);
+        }
+
+
+        /* =====================================================
+           CENTRE PIN
+           ===================================================== */
+
+        .clock-centre {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 6;
+
+            width: 10px;
+            height: 10px;
+
+            background:
+                rgba(210, 211, 194, 0.94);
+
+            border:
+                2px solid
+                rgba(90, 96, 86, 0.94);
 
             border-radius: 50%;
-        }
 
-
-        /* =====================================================
-           TIME
-           ===================================================== */
-
-        .clock-time {
-            position: relative;
-            z-index: 1;
-
-            display: flex;
-            justify-content: center;
-            align-items: baseline;
-
-            margin: 0;
-
-            color: #f3f1e9;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size:
-                clamp(
-                    44px,
-                    15vw,
-                    62px
-                );
-
-            font-weight: 400;
-            line-height: 0.95;
-            letter-spacing: 0.02em;
-
-            white-space: nowrap;
-        }
-
-
-        .clock-colon {
-            margin: 0 3px;
-
-            color:
-                rgba(174, 194, 169, 0.90);
-
-            animation:
-                colon-pulse
-                2s
-                ease-in-out
-                infinite;
-        }
-
-
-        /* =====================================================
-           DATE
-           ===================================================== */
-
-        .clock-date {
-            position: relative;
-            z-index: 1;
-
-            margin: 8px 0 0;
-
-            color:
-                rgba(219, 223, 215, 0.64);
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 12px;
-            font-style: italic;
-            line-height: 1.35;
-            text-align: center;
-        }
-
-
-        /* =====================================================
-           MINIMAL BOTTOM DETAIL
-           ===================================================== */
-
-        .clock-detail {
-            position: relative;
-            z-index: 1;
-
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            margin-top: 12px;
-        }
-
-
-        .clock-detail::before,
-        .clock-detail::after {
-            content: "";
-
-            flex: 1;
-
-            height: 1px;
-
-            background:
-                linear-gradient(
-                    to right,
-                    transparent,
-                    rgba(190, 207, 184, 0.17)
+            transform:
+                translate(
+                    -50%,
+                    -50%
                 );
         }
 
 
-        .clock-detail::after {
-            background:
-                linear-gradient(
-                    to left,
-                    transparent,
-                    rgba(190, 207, 184, 0.17)
-                );
-        }
-
-
-        .clock-detail-symbol {
-            color:
-                rgba(151, 174, 148, 0.72);
-
-            font-size: 10px;
-            line-height: 1;
-        }
-
-
         /* =====================================================
-           ANIMATION
+           SMALLER EMBEDS
            ===================================================== */
 
-        @keyframes colon-pulse {
+        @media (max-width: 190px) {
 
-            0%,
-            100% {
-                opacity: 0.42;
+            .clock-face {
+                width: 170px;
+                height: 170px;
             }
 
-            50% {
-                opacity: 1;
+            .clock-marker {
+                transform-origin:
+                    50%
+                    78px;
             }
 
-        }
-
-
-        /* =====================================================
-           SMALL NOTION COLUMNS
-           ===================================================== */
-
-        @media (max-width: 320px) {
-
-            body {
-                padding: 5px;
+            .clock-hour-hand {
+                height: 40px;
             }
 
-            .clock-card {
-                padding:
-                    14px
-                    15px
-                    13px;
+            .clock-minute-hand {
+                height: 57px;
             }
 
-            .clock-time {
-                font-size:
-                    clamp(
-                        38px,
-                        16vw,
-                        50px
-                    );
-            }
-
-            .clock-date {
-                font-size: 11px;
+            .clock-second-hand {
+                height: 64px;
             }
 
         }
@@ -353,8 +241,8 @@
 
         @media (prefers-reduced-motion: reduce) {
 
-            .clock-colon {
-                animation: none;
+            .clock-second-hand {
+                display: none;
             }
 
         }
@@ -367,57 +255,27 @@
 <body>
 
     <main
-        class="clock-card"
-        aria-label="Current time and date"
+        class="clock-face"
+        id="clockFace"
+        aria-label="Current local time"
     >
 
-        <header class="clock-header">
+        <div
+            class="clock-hand clock-hour-hand"
+            id="hourHand"
+        ></div>
 
-            <p
-                class="clock-greeting"
-                id="clockGreeting"
-            >
-                Good evening
-            </p>
+        <div
+            class="clock-hand clock-minute-hand"
+            id="minuteHand"
+        ></div>
 
-            <span
-                class="clock-moon"
-                aria-hidden="true"
-            ></span>
+        <div
+            class="clock-hand clock-second-hand"
+            id="secondHand"
+        ></div>
 
-        </header>
-
-
-        <time
-            class="clock-time"
-            id="clockTime"
-        >
-
-            <span id="clockHours">
-                00
-            </span>
-
-            <span
-                class="clock-colon"
-                aria-hidden="true"
-            >
-                :
-            </span>
-
-            <span id="clockMinutes">
-                00
-            </span>
-
-        </time>
-
-
-        <p
-            class="clock-date"
-            id="clockDate"
-        >
-            Loading today’s date…
-        </p>
-
+        <div class="clock-centre"></div>
 
     </main>
 
@@ -427,35 +285,52 @@
         "use strict";
 
 
-        function padNumber(number) {
+        function createClockMarkers() {
 
-            return String(number).padStart(
-                2,
-                "0"
-            );
-
-        }
+            const clockFace =
+                document.getElementById(
+                    "clockFace"
+                );
 
 
-        function getGreeting(hour) {
+            for (
+                let markerNumber = 0;
+                markerNumber < 60;
+                markerNumber++
+            ) {
 
-            if (hour < 5) {
-                return "Quiet night";
+                const marker =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                marker.className =
+                    "clock-marker";
+
+
+                if (
+                    markerNumber % 5 === 0
+                ) {
+
+                    marker.classList.add(
+                        "clock-marker-major"
+                    );
+
+                }
+
+
+                marker.style.transform =
+                    "translateX(-50%) rotate(" +
+                    markerNumber * 6 +
+                    "deg)";
+
+
+                clockFace.appendChild(
+                    marker
+                );
+
             }
-
-            if (hour < 12) {
-                return "Good morning";
-            }
-
-            if (hour < 17) {
-                return "Good afternoon";
-            }
-
-            if (hour < 22) {
-                return "Good evening";
-            }
-
-            return "Quiet night";
 
         }
 
@@ -467,65 +342,85 @@
 
 
             const hours =
-                padNumber(
-                    now.getHours()
-                );
+                now.getHours();
 
 
             const minutes =
-                padNumber(
-                    now.getMinutes()
-                );
+                now.getMinutes();
+
+
+            const seconds =
+                now.getSeconds();
+
+
+            const milliseconds =
+                now.getMilliseconds();
+
+
+            const smoothSeconds =
+                seconds +
+                milliseconds / 1000;
+
+
+            const smoothMinutes =
+                minutes +
+                smoothSeconds / 60;
+
+
+            const smoothHours =
+                hours % 12 +
+                smoothMinutes / 60;
 
 
             document.getElementById(
-                "clockHours"
-            ).textContent = hours;
+                "hourHand"
+            ).style.transform =
+                "translateX(-50%) rotate(" +
+                smoothHours * 30 +
+                "deg)";
 
 
             document.getElementById(
-                "clockMinutes"
-            ).textContent = minutes;
+                "minuteHand"
+            ).style.transform =
+                "translateX(-50%) rotate(" +
+                smoothMinutes * 6 +
+                "deg)";
 
 
             document.getElementById(
-                "clockGreeting"
-            ).textContent =
-                getGreeting(
-                    now.getHours()
-                );
+                "secondHand"
+            ).style.transform =
+                "translateX(-50%) rotate(" +
+                smoothSeconds * 6 +
+                "deg)";
 
 
             document.getElementById(
-                "clockDate"
-            ).textContent =
-                now.toLocaleDateString(
+                "clockFace"
+            ).setAttribute(
+                "aria-label",
+                "Current local time: " +
+                now.toLocaleTimeString(
                     "en-GB",
                     {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long"
+                        hour: "2-digit",
+                        minute: "2-digit"
                     }
-                );
+                )
+            );
 
 
-            document.getElementById(
-                "clockTime"
-            ).setAttribute(
-                "datetime",
-                now.toISOString()
+            window.requestAnimationFrame(
+                updateClock
             );
 
         }
 
 
+        createClockMarkers();
+
         updateClock();
-
-
-        window.setInterval(
-            updateClock,
-            1000
-        );
 
     </script>
 
